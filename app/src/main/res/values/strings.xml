@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">daylog.</string>
+    <string name="selamat_datang">Selamat datang! \n Mulai catat keseharian \n dan momen berhargamu disini.</string>
+    <string name="register_to_login">Do you already have an account?</string>
+    <string name="login_to_register">You don’t have an account yet?</string>
+    <string name="login">Login</string>
+    <string name="signup">SignUp</string>
+    <string name="register">Register</string>
+    <string name="reset_pw">Reset Password</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="enter_new_pw">Enter New Password</string>
+    <string name="confirm_new_pw">Confirm New Password</string>
+</resources>

@@ -1,0 +1,28 @@
+package org.d3if0075.daylog
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import org.d3if0075.daylog.ui.screen.LoginScreen
+import org.d3if0075.daylog.ui.theme.DayLogTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        installSplashScreen()
+
+        setContent {
+            DayLogTheme {
+                MainActivityContent()
+            }
+        }
+    }
+}
+
+@Composable
+fun MainActivityContent() {
+    LoginScreen()
+}

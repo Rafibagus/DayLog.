@@ -14,11 +14,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.model.loadImage
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 @Composable
-fun MainScreen() {
+fun MainScreen(navHostController: NavHostController) {
     val backgroundImage = loadImage(R.drawable.background_daylog)
 
     Box(
@@ -62,6 +64,6 @@ fun MainScreen() {
 @Composable
 fun ScreenPreview( ) {
     DayLogTheme {
-        MainScreen()
+        MainScreen(navHostController = rememberNavController())
     }
 }

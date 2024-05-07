@@ -5,7 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import org.d3if0075.daylog.navigation.SetupNavGraph
 import org.d3if0075.daylog.ui.screen.LoginScreen
+import org.d3if0075.daylog.ui.screen.WelcomeScreen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,5 +26,5 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainActivityContent() {
-    LoginScreen()
+    SetupNavGraph()
 }

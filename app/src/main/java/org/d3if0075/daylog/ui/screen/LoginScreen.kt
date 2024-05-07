@@ -1,6 +1,5 @@
 package org.d3if0075.daylog.ui.screen
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,12 +22,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.model.loadImage
+import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navHostController: NavHostController) {
     val backgroundImage = loadImage(R.drawable.background_daylog)
     val kaisade = FontFamily(Font(R.font.kaisei_decol_bold))
     val name = remember { mutableStateOf("") }
@@ -99,9 +101,7 @@ fun LoginScreen() {
                     )
                 }
 
-                LoginButton(onClick = {
-                }
-                 )
+                LoginButton(onClick = {navHostController.navigate(Screen.Register.route)} )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -126,6 +126,6 @@ fun LoginScreen() {
 @Composable
 fun LoginPreview( ) {
     DayLogTheme {
-        LoginScreen()
+        LoginScreen(navHostController = rememberNavController())
     }
 }

@@ -17,20 +17,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.model.loadImage
+import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DarkBrown
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.ui.theme.Grey1
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navHostController: NavHostController) {
     val backgroundImage = loadImage(R.drawable.background_daylog)
+    val kaisade = FontFamily(Font(R.font.kaisei_decol_bold))
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -52,8 +57,8 @@ fun WelcomeScreen() {
             Text(
                 text = stringResource(R.string.app_name),
                 fontSize = 36.sp,
-                fontStyle = FontStyle.Italic,
-                modifier = Modifier.padding(bottom = 16.dp)
+                fontFamily = kaisade,
+                modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
                 text = stringResource(R.string.selamat_datang),
@@ -61,9 +66,7 @@ fun WelcomeScreen() {
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            MulaiButton(onClick = {
-
-            })
+            MulaiButton(onClick = {navHostController.navigate(Screen.Login.route)})
         }
     }
 }
@@ -73,7 +76,7 @@ fun MulaiButton(onClick: () -> Unit) {
     Button(
         onClick = onClick,
         modifier = Modifier.padding(8.dp),
-        shape = MaterialTheme.shapes.medium,
+        shape = MaterialTheme.shapes.extraSmall,
         colors = ButtonDefaults.buttonColors(DarkBrown)
     ) {
         Text(
@@ -136,6 +139,6 @@ fun VerifyButton(onClick: () -> Unit) {
 @Composable
 fun WelcomePreview( ) {
     DayLogTheme {
-        WelcomeScreen()
+        WelcomeScreen(navHostController = rememberNavController())
     }
 }

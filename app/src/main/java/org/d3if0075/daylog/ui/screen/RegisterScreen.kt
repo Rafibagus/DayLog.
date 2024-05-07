@@ -22,12 +22,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.model.loadImage
+import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(navHostController: NavHostController) {
     val backgroundImage = loadImage(R.drawable.background_daylog)
     val kaisade = FontFamily(Font(R.font.kaisei_decol_bold))
     val name = remember { mutableStateOf("") }
@@ -108,9 +111,7 @@ fun RegisterScreen() {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
-                RegisterButton(onClick = {
-                    // Aksi yang diambil saat tombol ditekan
-                })
+                RegisterButton(onClick = {navHostController.navigate(Screen.Home.route)})
                 Text(
                     text = stringResource(R.string.register_to_login)
                 )
@@ -132,6 +133,6 @@ fun RegisterScreen() {
 @Composable
 fun RegisterPreview( ) {
     DayLogTheme {
-        RegisterScreen()
+        RegisterScreen(navHostController = rememberNavController())
     }
 }

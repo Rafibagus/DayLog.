@@ -10,5 +10,6 @@ data class User(
     val userName: String,
     val email: String,
     val password: String,
+    val confirmation: String,
     val signedIn:Boolean
 )

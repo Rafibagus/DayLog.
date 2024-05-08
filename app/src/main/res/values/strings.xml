@@ -21,4 +21,6 @@
     <string name="password_invalid">Password minimal 8 karakter dan harus memiliki setidaknya satu angka dan simbol.</string>
     <string name="confirm_invalid">Konfirmasi password tidak sesuai.</string>
     <string name="opening">Ada rahasia atau cerita yang ingin dibagi? Biarkan daylog yang tak pernah tidur ini mendengarkan setiap waktu.</string>
+    <string name="search">Cari</string>
+    <string name="kembali">Kembali</string>
 </resources>

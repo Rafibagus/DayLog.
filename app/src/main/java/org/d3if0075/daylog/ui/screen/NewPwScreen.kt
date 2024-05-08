@@ -51,7 +51,7 @@ fun NewPwScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.app_name),
+                text = stringResource(R.string.logo),
                 fontSize = 36.sp,
                 fontFamily = kaisade,
                 modifier = Modifier.padding(bottom = 8.dp)

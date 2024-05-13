@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
+import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 @Composable
 fun MainScreen(navHostController: NavHostController) {
@@ -31,7 +32,7 @@ fun MainScreen(navHostController: NavHostController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IconButton(onClick = {navHostController.popBackStack()}) {
+            IconButton(onClick = {navHostController.navigate(Screen.Notes.route)}) {
                 Icon(
                     imageVector = Icons.Filled.Search,
                     contentDescription = stringResource(R.string.search),

@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import org.d3if0075.daylog.ui.screen.DetailScreen
 import org.d3if0075.daylog.ui.screen.LoadingScreen
 import org.d3if0075.daylog.ui.screen.LoginScreen
 import org.d3if0075.daylog.ui.screen.MainScreen
@@ -31,6 +32,9 @@ fun SetupNavGraph(navHostController: NavHostController = rememberNavController()
         }
         composable(route = Screen.Home.route){
             MainScreen(navHostController)
+        }
+        composable(route = Screen.Notes.route){
+            DetailScreen(navHostController)
         }
     }
 }

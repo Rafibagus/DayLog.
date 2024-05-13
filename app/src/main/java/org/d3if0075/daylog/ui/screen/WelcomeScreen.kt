@@ -46,7 +46,6 @@ fun WelcomeScreen(navHostController: NavHostController) {
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds
         )
-
         Column(
             modifier = Modifier
                 .fillMaxSize()

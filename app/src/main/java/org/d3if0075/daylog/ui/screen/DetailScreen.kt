@@ -70,7 +70,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
                 },
                 title = {
                     if (id == null)
-                        Text(text = "")
+                        Text(text = stringResource(id = R.string.tambah_catatan))
                     else
                         Text(text = stringResource(id = R.string.edit_catatan))
                 },
@@ -100,7 +100,6 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormCatatan(
     title: String, onTitleChange: (String) -> Unit,
@@ -113,7 +112,6 @@ fun FormCatatan(
             .padding(top = 80.dp, start = 16.dp, end = 16.dp),
 
     ) {
-        //judul
         OutlinedTextField(
             value = title,
             onValueChange = { onTitleChange(it) },
@@ -124,10 +122,6 @@ fun FormCatatan(
                 imeAction = ImeAction.Next
             ),
             modifier = Modifier.fillMaxWidth(),
-            //warna outline
-//            colors = TextFieldDefaults.outlinedTextFieldColors(
-//                focusedBorderColor = Grey1
-//            )
         )
         //mood emoticon
         Row(

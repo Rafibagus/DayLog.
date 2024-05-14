@@ -22,6 +22,10 @@
     <string name="confirm_invalid">Konfirmasi password tidak sesuai.</string>
     <string name="opening">Ada rahasia atau cerita yang ingin dibagi? Biarkan daylog yang tak pernah tidur ini mendengarkan setiap waktu.</string>
     <string name="search">Cari</string>
+    <string name="judul">Masukan judul</string>
+    <string name="isi_catatan">Masukan teks</string>
     <string name="kembali">Kembali</string>
     <string name="simpan">Simpan</string>
+    <string name="tambah_catatan">Tambah catatan</string>
+    <string name="edit_catatan">Edit catatan</string>
 </resources>

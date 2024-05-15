@@ -1,5 +1,6 @@
 package org.d3if0075.daylog.ui.screen
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -25,8 +28,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -40,7 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 
-const val KEY_ID_CATATAN = "idCatatan"
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,7 +116,7 @@ fun FormCatatan(
             .fillMaxSize()
             .padding(top = 80.dp, start = 16.dp, end = 16.dp),
 
-    ) {
+        ) {
         OutlinedTextField(
             value = title,
             onValueChange = { onTitleChange(it) },
@@ -128,39 +133,48 @@ fun FormCatatan(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 30.dp)
+                .padding(top = 12.dp)
                 .clickable { }
+                .border(1.dp, Color.Black, shape = RoundedCornerShape(8.dp)
+                ) // Added border around the row
+                .padding(8.dp) // Add padding inside the border
+
         ) {
-            Text(
-                text = "\uD83D\uDE03",
-                fontSize = 40.sp,
-                modifier = Modifier.padding(horizontal = 10.dp),
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = "\uD83D\uDE04",
-                fontSize = 40.sp,
-                modifier = Modifier.padding(horizontal = 10.dp),
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = "\uD83D\uDE42",
-                fontSize = 40.sp,
-                modifier = Modifier.padding(horizontal = 10.dp),
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = "\uD83D\uDE41",
-                fontSize = 40.sp,
-                modifier = Modifier.padding(horizontal = 10.dp),
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = "\uD83D\uDE2B",
-                fontSize = 40.sp,
-                modifier = Modifier.padding(horizontal = 10.dp),
-                textAlign = TextAlign.Center
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally, // Align items horizontally to the center within the Column
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Bagaimana mood Anda hari ini?",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                    // List of vector assets for moods
+                    val moodIcons = listOf(
+                        R.drawable.baseline_sentiment_satisfied_24,
+                        R.drawable.baseline_sentiment_satisfied_alt_24,
+                        R.drawable.baseline_sentiment_very_satisfied_24,
+                        R.drawable.baseline_sentiment_dissatisfied_24,
+                        R.drawable.baseline_sentiment_very_dissatisfied_24,
+                    )
+                    val moodColors = listOf(
+                        Color.Red,
+                        Color.Gray,
+                        Color.Green,
+                        Color.Yellow,
+                        Color.Blue
+                    )
+                    moodIcons.forEachIndexed { index, iconRes ->
+                        Icon(
+                            painter = painterResource(id = iconRes),
+                            contentDescription = "Mood Icon",
+                            tint = moodColors[index],
+                            modifier = Modifier.size(60.dp) // Set the size of the icons
+                        )
+                    }
+                }
+            }
         }
         //isi catatan
         OutlinedTextField(
@@ -177,6 +191,7 @@ fun FormCatatan(
         )
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

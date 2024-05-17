@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "org.d3if0075.daylog"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -51,6 +51,8 @@ android {
 }
 
 dependencies {
+
+    implementation("co.yml:ycharts:2.1.0")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")

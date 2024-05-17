@@ -99,7 +99,7 @@ fun MainScreen(navHostController: NavHostController) {
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     trailingIcon = {
-                        IconButton(onClick = { navHostController.navigate(Screen.Notes.route) }) {
+                        IconButton(onClick = {  }) {
                             Icon(
                                 imageVector = Icons.Filled.Search,
                                 contentDescription = stringResource(R.string.search),

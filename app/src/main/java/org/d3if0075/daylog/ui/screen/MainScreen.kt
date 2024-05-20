@@ -68,7 +68,10 @@ fun MainScreen(navHostController: NavHostController) {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(top = 14.dp, bottom = 20.dp)
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.baseline_sentiment_very_satisfied_24),
                         contentDescription = null,
@@ -109,9 +112,9 @@ fun MainScreen(navHostController: NavHostController) {
                             }
                         },
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-//                            containerColor =  Color(red = 215f, green = 192f, blue = 174f, alpha = 0.3f),
-                            focusedBorderColor = Color.Transparent,
-                            unfocusedBorderColor = Color.Transparent
+                            containerColor =  Color(0xFFEEE3CB),
+                            focusedBorderColor = Color(0xFFEEE3CB),
+                            unfocusedBorderColor = Color(0xFFEEE3CB)
                         ),
                         modifier = Modifier
                             .height(50.dp)

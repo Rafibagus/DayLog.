@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -38,13 +39,11 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.ui.theme.DayLogTheme
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +74,10 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
                 },
                 title = {
                     if (id == null)
-                        Text(text = stringResource(id = R.string.tambah_catatan))
+                        Text(
+                            text = stringResource(id = R.string.tambah_catatan),
+                            color = Color.Black
+                        )
                     else
                         Text(text = stringResource(id = R.string.edit_catatan))
                 },
@@ -105,6 +107,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormCatatan(
     title: String, onTitleChange: (String) -> Unit,
@@ -126,7 +129,13 @@ fun FormCatatan(
                 capitalization = KeyboardCapitalization.Words,
                 imeAction = ImeAction.Next
             ),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                containerColor =  Color(0xFFEEE3CB),
+                focusedBorderColor = Color(0xFFEEE3CB),
+                unfocusedBorderColor = Color(0xFFEEE3CB)
+            )
         )
         //mood emoticon
         Row(
@@ -135,7 +144,8 @@ fun FormCatatan(
                 .fillMaxWidth()
                 .padding(top = 12.dp)
                 .clickable { }
-                .border(1.dp, Color.Black, shape = RoundedCornerShape(8.dp)
+                .border(
+                    1.dp, Color(0xFFEEE3CB), shape = RoundedCornerShape(8.dp)
                 ) // Added border around the row
                 .padding(8.dp) // Add padding inside the border
 
@@ -152,7 +162,7 @@ fun FormCatatan(
                 Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                     // List of vector assets for moods
                     val moodIcons = listOf(
-                        R.drawable.baseline_sentiment_satisfied_24,
+                        R.drawable.excited,
                         R.drawable.baseline_sentiment_satisfied_alt_24,
                         R.drawable.baseline_sentiment_very_satisfied_24,
                         R.drawable.baseline_sentiment_dissatisfied_24,
@@ -183,6 +193,10 @@ fun FormCatatan(
             label = { Text(text = stringResource(R.string.isi_catatan)) },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences
+            ),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFFEEE3CB),
+                unfocusedBorderColor = Color(0xFFEEE3CB)
             ),
             modifier = modifier
                 .fillMaxWidth()

@@ -2,6 +2,7 @@ package org.d3if0075.daylog.ui.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
+import org.d3if0075.daylog.ui.theme.Grey1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,8 +44,10 @@ fun MainScreen(navHostController: NavHostController) {
                 onClick = {
                     navHostController.navigate(Screen.Notes.route) // Asumsi Screen.FormBaru adalah screen yang ingin Anda navigasi
                 },
+                modifier = Modifier.padding(bottom = 70.dp),
                 containerColor = Color(0xFFAB8172),
-                contentColor = Color.White
+                shape = RoundedCornerShape(50.dp),
+                contentColor = Color.White,
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
@@ -56,14 +60,13 @@ fun MainScreen(navHostController: NavHostController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(padding)
+                    .padding(16.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
@@ -75,7 +78,9 @@ fun MainScreen(navHostController: NavHostController) {
                             .clip(CircleShape)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Column {
+                    Column(
+                        modifier = Modifier.padding(end = 16.dp)
+                    ) {
                         Text(
                             text = "Hai,",
                             fontSize = 16.sp,
@@ -87,41 +92,72 @@ fun MainScreen(navHostController: NavHostController) {
                             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
                         )
                     }
+                    OutlinedTextField(
+                        value = searchQuery,
+                        onValueChange = { searchQuery = it },
+                        placeholder = { Text(text = stringResource(R.string.search)) },
+                        shape = RoundedCornerShape(50),
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                        trailingIcon = {
+                            IconButton(onClick = {  }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Search,
+                                    contentDescription = stringResource(R.string.search),
+                                    tint = Color.Black
+                                )
+                            }
+                        },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+//                            containerColor =  Color(red = 215f, green = 192f, blue = 174f, alpha = 0.3f),
+                            focusedBorderColor = Color.Transparent,
+                            unfocusedBorderColor = Color.Transparent
+                        ),
+                        modifier = Modifier
+                            .height(50.dp)
+                    )
                 }
-
-                Spacer(modifier = Modifier.height(30.dp))
-
-                OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    placeholder = { Text(text = stringResource(R.string.search)) },
-                    shape = RoundedCornerShape(50),
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                    trailingIcon = {
-                        IconButton(onClick = {  }) {
-                            Icon(
-                                imageVector = Icons.Filled.Search,
-                                contentDescription = stringResource(R.string.search),
-                                tint = Color.Black
-                            )
-                        }
-                    },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        containerColor = Color(0xFFD7C0AE),
-                        focusedBorderColor = Color.Transparent,
-                        unfocusedBorderColor = Color.Transparent
-                    ),
-                    modifier = Modifier
-                        .height(50.dp)
-                        .fillMaxWidth()
-                )
                 Text(
                     text = stringResource(R.string.opening),
                     fontSize = 16.sp,
                     color = Color.Black,
                     modifier = Modifier.padding(top = 8.dp)
                 )
+            }
+            Row(
+                modifier = Modifier
+                    .size(500.dp, 68.dp)
+                    .background(Grey1)
+                    .align(Alignment.BottomCenter),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(50.dp)
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .align(Alignment.CenterVertically),
+                        painter = painterResource(id = R.drawable.home_house),
+                        contentDescription = stringResource(id = R.string.home)
+                    )
+                    Image(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .align(Alignment.CenterVertically),
+                        painter = painterResource(id = R.drawable.analytics_graph_chart),
+                        contentDescription = stringResource(id = R.string.graph)
+                    )
+                    Image(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .align(Alignment.CenterVertically),
+                        painter = painterResource(id = R.drawable.account_user_person_square),
+                        contentDescription = stringResource(id = R.string.account)
+                    )
+                }
+
             }
         }
     }

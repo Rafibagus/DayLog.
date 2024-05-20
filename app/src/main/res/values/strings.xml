@@ -28,4 +28,7 @@
     <string name="simpan">Simpan</string>
     <string name="tambah_catatan">Tambah catatan</string>
     <string name="edit_catatan">Edit catatan</string>
+    <string name="home">Beranda</string>
+    <string name="graph">Mood Tracker</string>
+    <string name="account">Akun</string>
 </resources>

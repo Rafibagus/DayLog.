@@ -13,3 +13,4 @@ data class User(
     val confirmation: String,
     val signedIn:Boolean,
 )
+

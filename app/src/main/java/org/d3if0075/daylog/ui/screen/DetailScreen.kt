@@ -1,5 +1,6 @@
 package org.d3if0075.daylog.ui.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -43,19 +46,26 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
+import org.d3if0075.daylog.database.DaylogDb
 import org.d3if0075.daylog.ui.theme.DayLogTheme
+import org.d3if0075.daylog.util.CatatanModelFactory
 
+const val KEY_ID_DAYLOG = "idDaylog"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(navController: NavController, id: Long? = null) {
-    val viewModel: DetailViewModel = viewModel()
+    val context = LocalContext.current
+    val db = DaylogDb.getInstance(context)
+    val factory = CatatanModelFactory(db.catatanDao)
+    val viewModel: DetailViewModel = viewModel(factory = factory)
 
     var judul by remember { mutableStateOf("") }
     var catatan by remember { mutableStateOf("") }
 
-    if (id != null) {
-        val data = viewModel.getCatatan(id)
+    LaunchedEffect(true) {
+        if (id == null) return@LaunchedEffect
+        val data = viewModel.getCatatan(id) ?: return@LaunchedEffect
         judul = data.judul
         catatan = data.catatan
     }
@@ -79,14 +89,26 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
                             color = Color.Black
                         )
                     else
-                        Text(text = stringResource(id = R.string.edit_catatan))
+                        Text(text = stringResource(id = R.string.edit_catatan),
+                            color = Color.Black
+                        )
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = Color(0xFFEEE3CB),
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 actions = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = {
+                        if(judul == "" || catatan == ""){
+                            Toast.makeText(context, R.string.invalid, Toast.LENGTH_LONG).show()
+                            return@IconButton
+                        }
+                        if (id == null){
+                            viewModel.insert(judul, catatan)
+                        } else {
+                            viewModel.update(id, judul, catatan)
+                        }
+                        navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Outlined.Check,
                             contentDescription = stringResource(R.string.simpan),
@@ -212,5 +234,5 @@ fun FormCatatan(
 fun DetailScreenPreview() {
     DayLogTheme {
         DetailScreen(rememberNavController())
-    }
+        }
 }

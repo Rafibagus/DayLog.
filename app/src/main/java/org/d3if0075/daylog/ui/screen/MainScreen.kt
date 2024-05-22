@@ -3,15 +3,20 @@ package org.d3if0075.daylog.ui.screen
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,31 +26,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
+import org.d3if0075.daylog.database.DaylogDb
+import org.d3if0075.daylog.model.Catatan
 import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.ui.theme.Grey1
+import org.d3if0075.daylog.util.CatatanModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navHostController: NavHostController) {
     var searchQuery by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    val db = DaylogDb.getInstance(context)
+    val factory = CatatanModelFactory(db.catatanDao)
+    val viewModel: MainViewModel = viewModel(factory = factory)
+    val data by viewModel.data.collectAsState()
+
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
                     navHostController.navigate(Screen.Notes.route) // Asumsi Screen.FormBaru adalah screen yang ingin Anda navigasi
                 },
-                modifier = Modifier.padding(bottom = 70.dp),
                 containerColor = Color(0xFFAB8172),
+                modifier = Modifier.padding(bottom = 80.dp),
                 shape = RoundedCornerShape(50.dp),
                 contentColor = Color.White,
             ) {
@@ -61,6 +81,7 @@ fun MainScreen(navHostController: NavHostController) {
             modifier = Modifier
                 .fillMaxSize()
         ) {
+
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start,
@@ -92,7 +113,7 @@ fun MainScreen(navHostController: NavHostController) {
                         Text(
                             text = "Agus",
                             fontSize = 20.sp,
-                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                            fontWeight = FontWeight.Bold
                         )
                     }
                     OutlinedTextField(
@@ -127,6 +148,33 @@ fun MainScreen(navHostController: NavHostController) {
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
+
+            if (data.isEmpty()){
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = stringResource(id = R.string.list_kosong))
+                }
+            }
+            else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(top = 200.dp,bottom = 84.dp)
+                ){
+                    items(data){
+                        ListItem(catatan = it){
+                            navHostController.navigate(Screen.FormUbah.withId(it.id))
+                        }
+                        Divider()
+
+                    }
+                }
+            }
+
             Row(
                 modifier = Modifier
                     .size(500.dp, 68.dp)
@@ -138,31 +186,100 @@ fun MainScreen(navHostController: NavHostController) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(50.dp)
                 ) {
-                    Image(
+                    Box(
                         modifier = Modifier
-                            .size(32.dp)
-                            .align(Alignment.CenterVertically),
-                        painter = painterResource(id = R.drawable.home_house),
-                        contentDescription = stringResource(id = R.string.home)
-                    )
-                    Image(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .align(Alignment.CenterVertically),
-                        painter = painterResource(id = R.drawable.analytics_graph_chart),
-                        contentDescription = stringResource(id = R.string.graph)
-                    )
-                    Image(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .align(Alignment.CenterVertically),
-                        painter = painterResource(id = R.drawable.account_user_person_square),
-                        contentDescription = stringResource(id = R.string.account)
-                    )
-                }
+                            .clickable {
+                                // Handle home image click
+                            }
+                    ) {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            painter = painterResource(id = R.drawable.home_house),
+                            contentDescription = stringResource(id = R.string.home)
+                        )
+                    }
 
+                    Box(
+                        modifier = Modifier
+                            .clickable {
+                                navHostController.navigate(Screen.Chart.route)
+                                // Handle graph image click
+                            }
+                    ) {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            painter = painterResource(id = R.drawable.analytics_graph_chart),
+                            contentDescription = stringResource(id = R.string.graph)
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .clickable {
+                                navHostController.navigate(Screen.About.route)
+                                // Handle account image click
+                            }
+                    ) {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            painter = painterResource(id = R.drawable.account_user_person_square),
+                            contentDescription = stringResource(id = R.string.account)
+                        )
+                    }
+                }
             }
         }
+    }
+}
+
+@Composable
+fun DeleteAction(delete: () -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+    IconButton(
+        onClick = {expanded = true}) {
+        Icon(
+            modifier = Modifier.padding(end = 24.dp),
+            imageVector = Icons.Filled.MoreVert,
+            contentDescription = stringResource(R.string.lainnya),
+            tint = MaterialTheme.colorScheme.primary
+        )
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = {expanded = false}
+    ) {
+        DropdownMenuItem(
+            text = {
+                Text(text = stringResource(id = R.string.hapus))
+            },
+            onClick = {
+                expanded = false
+                delete()
+            }
+        )
+    }
+}
+}
+
+@Composable
+fun ListItem(catatan: Catatan, onClick: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ){
+        Text(
+            text = catatan.judul,
+            maxLines = 20,
+            overflow = TextOverflow.Ellipsis,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = catatan.catatan,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 

@@ -11,3 +11,5 @@ data class Catatan(
     val judul: String,
     val catatan: String
 )
+
+

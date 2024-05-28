@@ -15,4 +15,6 @@ sealed class Screen(val route: String) {
     data object Chart: Screen("pieChartScreen")
 
     data object About: Screen("aboutDaylogScreen")
+
+    data object Profile: Screen("profileScreen")
 }

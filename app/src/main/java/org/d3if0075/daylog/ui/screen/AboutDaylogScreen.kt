@@ -151,7 +151,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
             }
         }
         IconButton(
-            onClick = {  },
+            onClick = {navHostController.navigate(Screen.Profile.route)},
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(16.dp)

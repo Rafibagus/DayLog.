@@ -35,4 +35,12 @@
     <string name="invalid">Judul dan isi catatan tidak boleh kosong.</string>
     <string name="lainnya">Opsi lainnya</string>
     <string name="delete">Hapus</string>
+    <string name="tentang_daylog">Tentang Daylog</string>
+    <string name="deskripsi_daylog">Daylog adalah ruang digital pribadi Anda untuk mengekspresikan hati, mencatat momen berharga, dan menyusun pikiran serta perasaan Anda. Dirancang untuk kemudahan penggunaan, Daylog menawarkan antarmuka yang intuitif dan fitur-fitur yang mendukung proses penulisan Anda menjadi lebih menyenangkan dan bermakna.</string>
+    <string name="deskripsi_tim">Dibuat oleh tim yang berdedikasi untuk menciptakan alat yang memungkinkan orang untuk mengeksplorasi kehidupan mereka dalam format digital. Kami percaya bahwa setiap orang memiliki cerita unik yang layak didokumentasikan dan dibagikan.</string>
+    <string name="kebijakan_privasi">Kebijakan Privasi</string>
+    <string name="deksripsi_kebijakan_privasi">Kami berkomitmen untuk melindungi privasi dan data pribadi Anda. Baca lebih lanjut untuk memahami bagaimana Informasi Anda kami gunakan dan lindungi.</string>
+    <string name="hubungi_kami">Hubungi Kami</string>
+    <string name="deskripsi_hubungi_kami">Untuk pertanyaan atau saran, silakan hubungi kami melalui email di support@daylog.com. Kami senang mendengar dari Anda dan siap membantu Anda dengan segala kebutuhan Anda.</string>
+    <string name="terima_kasih">Terima kasih telah memilih Daylog sebagai teman digital Anda dalam menulis diary, mencatat setiap momen hidup berharga, dan dengan mencatat dan menata perjalanan hidup kita.</string>
 </resources>

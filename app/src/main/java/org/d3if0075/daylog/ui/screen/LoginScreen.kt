@@ -98,7 +98,7 @@ fun LoginScreen(navHostController: NavHostController) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text("Email") },
+                    label = { Text("Alamat surel") },
                     textStyle = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -106,7 +106,7 @@ fun LoginScreen(navHostController: NavHostController) {
                 OutlinedTextField(
                     value = enterpw,
                     onValueChange = { enterpw = it },
-                    label = { Text("Password") },
+                    label = { Text("Kata sandi") },
                     visualTransformation = PasswordVisualTransformation(),
                     textStyle = MaterialTheme.typography.bodyLarge
                 )

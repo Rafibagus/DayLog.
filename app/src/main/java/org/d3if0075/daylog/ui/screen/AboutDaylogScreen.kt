@@ -92,7 +92,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                 TextField(
                     value = username,
                     onValueChange = { username = it },
-                    label = { Text("Username") },
+                    label = { Text("Nama pengguna") },
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -101,7 +101,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                 TextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text("Email") },
+                    label = { Text("Alamat surel") },
                     singleLine = true,
                     enabled = false,
                     modifier = Modifier
@@ -111,7 +111,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                 TextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Password") },
+                    label = { Text("Kata sandi") },
                     singleLine = true,
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier
@@ -128,7 +128,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEEE3CB))
                 ) {
                     Text(
-                        "Edit",
+                        "Ubah",
                         color = Color.Black
                     )
                 }

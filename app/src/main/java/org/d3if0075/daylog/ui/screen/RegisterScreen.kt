@@ -106,7 +106,7 @@ fun RegisterScreen(navHostController: NavHostController) {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Enter name") },
+                    label = { Text("Masukkan nama") },
                     textStyle = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -115,7 +115,7 @@ fun RegisterScreen(navHostController: NavHostController) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text("Enter Email") },
+                    label = { Text("Masukkan alamat surel") },
                     textStyle = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -123,7 +123,7 @@ fun RegisterScreen(navHostController: NavHostController) {
                 OutlinedTextField(
                     value = enterpw,
                     onValueChange = { enterpw = it },
-                    label = { Text("Enter Password") },
+                    label = { Text("Masukkan kata sandi") },
                     visualTransformation = PasswordVisualTransformation(),
                     textStyle = MaterialTheme.typography.bodyLarge
                 )
@@ -132,7 +132,7 @@ fun RegisterScreen(navHostController: NavHostController) {
                 OutlinedTextField(
                     value = confirmpw,
                     onValueChange = { confirmpw = it },
-                    label = { Text("Confirm Password") },
+                    label = { Text("Konfirmasi kata sandi") },
                     visualTransformation = PasswordVisualTransformation(),
                     textStyle = MaterialTheme.typography.bodyLarge
                 )

@@ -1,6 +1,7 @@
 package org.d3if0075.daylog.ui.screen
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,17 +15,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -62,12 +55,16 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
 
     var judul by remember { mutableStateOf("") }
     var catatan by remember { mutableStateOf("") }
+    var showMenu by remember { mutableStateOf(false) }
 
-    LaunchedEffect(true) {
-        if (id == null) return@LaunchedEffect
-        val data = viewModel.getCatatan(id) ?: return@LaunchedEffect
-        judul = data.judul
-        catatan = data.catatan
+    LaunchedEffect(id) {
+        if (id != null) {
+            val data = viewModel.getCatatan(id)
+            if (data != null) {
+                judul = data.judul
+                catatan = data.catatan
+            }
+        }
     }
 
     Scaffold(
@@ -83,32 +80,57 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
                     }
                 },
                 title = {
-                    if (id == null)
-                        Text(
-                            text = stringResource(id = R.string.tambah_catatan),
-                            color = Color.Black
-                        )
-                    else
-                        Text(text = stringResource(id = R.string.edit_catatan),
-                            color = Color.Black
-                        )
+                    Text(
+                        text = if (id == null) stringResource(id = R.string.tambah_catatan) else stringResource(id = R.string.edit_catatan),
+                        color = Color.Black
+                    )
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = Color(0xFFEEE3CB),
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 actions = {
+                    IconButton(onClick = { showMenu = !showMenu }) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = stringResource(R.string.lainnya),
+                            tint = Color.Black
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false },
+                        modifier = Modifier.background(Color.White)
+                    ) {
+                        DropdownMenuItem(
+                            onClick = {
+                                showMenu = false
+                                if (id != null) {
+                                    viewModel.delete(id)
+                                    Toast.makeText(context, R.string.delete, Toast.LENGTH_LONG).show()
+                                    navController.popBackStack()
+                                }
+                            },
+                            text = {
+                                Text(
+                                    text = stringResource(R.string.delete),
+                                    color = Color.Black
+                                )
+                            }
+                        )
+                    }
                     IconButton(onClick = {
-                        if(judul == "" || catatan == ""){
+                        if (judul.isBlank() || catatan.isBlank()) {
                             Toast.makeText(context, R.string.invalid, Toast.LENGTH_LONG).show()
                             return@IconButton
                         }
-                        if (id == null){
+                        if (id == null) {
                             viewModel.insert(judul, catatan)
                         } else {
                             viewModel.update(id, judul, catatan)
                         }
-                        navController.popBackStack() }) {
+                        navController.popBackStack()
+                    }) {
                         Icon(
                             imageVector = Icons.Outlined.Check,
                             contentDescription = stringResource(R.string.simpan),
@@ -124,10 +146,11 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
             onTitleChange = { judul = it },
             desc = catatan,
             onDescChange = { catatan = it },
-            modifier = Modifier.padding()
+            modifier = Modifier.padding(padding)
         )
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -234,5 +257,5 @@ fun FormCatatan(
 fun DetailScreenPreview() {
     DayLogTheme {
         DetailScreen(rememberNavController())
-        }
+    }
 }

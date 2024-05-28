@@ -57,12 +57,11 @@ fun MainScreen(navHostController: NavHostController) {
     val viewModel: MainViewModel = viewModel(factory = factory)
     val data by viewModel.data.collectAsState()
 
-
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navHostController.navigate(Screen.Notes.route) // Asumsi Screen.FormBaru adalah screen yang ingin Anda navigasi
+                    navHostController.navigate(Screen.Notes.route)
                 },
                 containerColor = Color(0xFFAB8172),
                 modifier = Modifier.padding(bottom = 80.dp),
@@ -118,13 +117,18 @@ fun MainScreen(navHostController: NavHostController) {
                     }
                     OutlinedTextField(
                         value = searchQuery,
-                        onValueChange = { searchQuery = it },
+                        onValueChange = {
+                            searchQuery = it
+                            viewModel.searchNotes(it) // Trigger search on value change
+                        },
                         placeholder = { Text(text = stringResource(R.string.search)) },
                         shape = RoundedCornerShape(50),
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                         trailingIcon = {
-                            IconButton(onClick = {  }) {
+                            IconButton(onClick = {
+                                viewModel.searchNotes(searchQuery) // Optional, as search is triggered on value change
+                            }) {
                                 Icon(
                                     imageVector = Icons.Filled.Search,
                                     contentDescription = stringResource(R.string.search),
@@ -149,7 +153,7 @@ fun MainScreen(navHostController: NavHostController) {
                 )
             }
 
-            if (data.isEmpty()){
+            if (data.isEmpty()) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -159,18 +163,16 @@ fun MainScreen(navHostController: NavHostController) {
                 ) {
                     Text(text = stringResource(id = R.string.list_kosong))
                 }
-            }
-            else {
+            } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(top = 200.dp,bottom = 84.dp)
-                ){
-                    items(data){
-                        ListItem(catatan = it){
-                            navHostController.navigate(Screen.FormUbah.withId(it.id))
+                    contentPadding = PaddingValues(top = 200.dp, bottom = 84.dp)
+                ) {
+                    items(data) { catatan ->
+                        ListItem(catatan = catatan) {
+                            navHostController.navigate(Screen.FormUbah.withId(catatan.id))
                         }
                         Divider()
-
                     }
                 }
             }
@@ -187,10 +189,9 @@ fun MainScreen(navHostController: NavHostController) {
                     horizontalArrangement = Arrangement.spacedBy(50.dp)
                 ) {
                     Box(
-                        modifier = Modifier
-                            .clickable {
-                                // Handle home image click
-                            }
+                        modifier = Modifier.clickable {
+                            // Handle home image click
+                        }
                     ) {
                         Image(
                             modifier = Modifier.align(Alignment.Center),
@@ -200,11 +201,10 @@ fun MainScreen(navHostController: NavHostController) {
                     }
 
                     Box(
-                        modifier = Modifier
-                            .clickable {
-                                navHostController.navigate(Screen.Chart.route)
-                                // Handle graph image click
-                            }
+                        modifier = Modifier.clickable {
+                            navHostController.navigate(Screen.Chart.route)
+                            // Handle graph image click
+                        }
                     ) {
                         Image(
                             modifier = Modifier.align(Alignment.Center),
@@ -214,11 +214,10 @@ fun MainScreen(navHostController: NavHostController) {
                     }
 
                     Box(
-                        modifier = Modifier
-                            .clickable {
-                                navHostController.navigate(Screen.About.route)
-                                // Handle account image click
-                            }
+                        modifier = Modifier.clickable {
+                            navHostController.navigate(Screen.About.route)
+                            // Handle account image click
+                        }
                     ) {
                         Image(
                             modifier = Modifier.align(Alignment.Center),
@@ -233,53 +232,34 @@ fun MainScreen(navHostController: NavHostController) {
 }
 
 @Composable
-fun DeleteAction(delete: () -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    IconButton(
-        onClick = {expanded = true}) {
-        Icon(
-            modifier = Modifier.padding(end = 24.dp),
-            imageVector = Icons.Filled.MoreVert,
-            contentDescription = stringResource(R.string.lainnya),
-            tint = MaterialTheme.colorScheme.primary
-        )
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = {expanded = false}
-    ) {
-        DropdownMenuItem(
-            text = {
-                Text(text = stringResource(id = R.string.hapus))
-            },
-            onClick = {
-                expanded = false
-                delete()
-            }
-        )
-    }
-}
-}
-
-@Composable
 fun ListItem(catatan: Catatan, onClick: () -> Unit) {
-    Column(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(8.dp)
             .clickable { onClick() }
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ){
-        Text(
-            text = catatan.judul,
-            maxLines = 20,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = catatan.catatan,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
+    ) {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = catatan.judul,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = catatan.catatan,
+                fontSize = 14.sp,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        IconButton(onClick = { /* TODO: Add more actions here if needed */ }) {
+            Icon(imageVector = Icons.Filled.MoreVert, contentDescription = "More")
+        }
     }
 }
 
@@ -291,4 +271,5 @@ fun ScreenPreview() {
         MainScreen(navHostController = rememberNavController())
     }
 }
+
 

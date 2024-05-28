@@ -34,5 +34,5 @@
     <string name="list_kosong">Belum ada data</string>
     <string name="invalid">Judul dan isi catatan tidak boleh kosong.</string>
     <string name="lainnya">Opsi lainnya</string>
-    <string name="hapus">Hapus</string>
+    <string name="delete">Hapus</string>
 </resources>

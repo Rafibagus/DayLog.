@@ -23,4 +23,7 @@ interface CatatanDao {
 
     @Query("DELETE FROM catatan WHERE id = :id")
     suspend fun deleteById(id:Long)
+
+    @Query("SELECT * FROM catatan WHERE judul LIKE :query OR catatan LIKE :query ORDER BY id DESC")
+    fun searchNotes(query: String): Flow<List<Catatan>>
 }

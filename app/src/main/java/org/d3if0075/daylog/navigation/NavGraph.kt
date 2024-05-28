@@ -14,6 +14,8 @@ import org.d3if0075.daylog.ui.screen.LineChartScreen
 import org.d3if0075.daylog.ui.screen.LoadingScreen
 import org.d3if0075.daylog.ui.screen.LoginScreen
 import org.d3if0075.daylog.ui.screen.MainScreen
+import org.d3if0075.daylog.ui.screen.PieChart
+import org.d3if0075.daylog.ui.screen.PieChartScreen
 import org.d3if0075.daylog.ui.screen.RegisterScreen
 import org.d3if0075.daylog.ui.screen.WelcomeScreen
 
@@ -52,7 +54,7 @@ fun SetupNavGraph(navHostController: NavHostController = rememberNavController()
             DetailScreen(navHostController, id)
         }
         composable(route = Screen.Chart.route){
-            LineChartScreen(navHostController)
+            PieChartScreen(navHostController)
         }
         composable(route = Screen.About.route){
             AboutDaylogScreen(navHostController)

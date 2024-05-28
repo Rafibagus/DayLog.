@@ -2,15 +2,20 @@ package org.d3if0075.daylog.ui.screen
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +33,8 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +43,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import org.d3if0075.daylog.R
 import org.d3if0075.daylog.model.PieChartInput
+import org.d3if0075.daylog.navigation.Screen
+import org.d3if0075.daylog.ui.theme.DarkBrown
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.ui.theme.Grey1
 import org.d3if0075.daylog.ui.theme.LightGray
@@ -52,32 +62,50 @@ import kotlin.math.atan2
 fun PieChartScreen(navHostController: NavHostController) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Grey1)
-            .padding(5.dp),
+            .background(Color.White)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Mood Chart",
-            fontSize = 35.sp,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 30.dp)
-        )
+        Column(
+            modifier = Modifier
+                .padding(top = 30.dp, start = 10.dp, end = 10.dp)
+                .fillMaxWidth()
+                .size(80.dp)
+                .background(Grey1, shape = RoundedCornerShape(16.dp)),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
+            Text(
+                text = "April 2024",
+                fontSize = 25.sp,
+                color = Color.Black,
+                textAlign = TextAlign.Center,
+            )
+        }
+
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .padding(start = 10.dp, end = 10.dp)
+                .background(Grey1, shape = RoundedCornerShape(16.dp))
+                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
         ){
+            Text(
+                text = "Mood Chart",
+                fontSize = 25.sp,
+                color = Color.Black,
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .padding(top = 30.dp, start = 30.dp)
+                    .fillMaxWidth()
+            )
             PieChart(
                 modifier = Modifier
-                    .size(500.dp),
+                    .size(500.dp)
+                    .align(Alignment.Center),
                 input = listOf(
-                    PieChartInput(
-                        color = pink,
-                        value = 1,
-                        description = "Excited"
-                    ),
                     PieChartInput(
                         color = LightGray,
                         value = 1,
@@ -98,18 +126,80 @@ fun PieChartScreen(navHostController: NavHostController) {
                         value = 1,
                         description = "Happy"
                     ),
+                    PieChartInput(
+                        color = pink,
+                        value = 1,
+                        description = "Excited"
+                    ),
                 ),
                 centerText = "Mood Chart"
             )
         }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ){
+            Row(
+                modifier = Modifier
+                    .size(500.dp, 68.dp)
+                    .background(Grey1)
+                    .align(Alignment.BottomCenter),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(50.dp)
+                ) {
+                    Box(
+                        modifier = Modifier.clickable {
+                            navHostController.navigate(Screen.Home.route)
+                            // Handle home image click
+                        }
+                    ) {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            painter = painterResource(id = R.drawable.home_house),
+                            contentDescription = stringResource(id = R.string.home)
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier.clickable {
+                            navHostController.navigate(Screen.Chart.route)
+                            // Handle graph image click
+                        }
+                    ) {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            painter = painterResource(id = R.drawable.analytics_graph_chart),
+                            contentDescription = stringResource(id = R.string.graph)
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier.clickable {
+                            navHostController.navigate(Screen.About.route)
+                            // Handle account image click
+                        }
+                    ) {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            painter = painterResource(id = R.drawable.account_user_person_square),
+                            contentDescription = stringResource(id = R.string.account)
+                        )
+                    }
+                }
+            }
+        }
+
     }
 }
 
 @Composable
 fun PieChart(
     modifier: Modifier = Modifier,
-    radius: Float = 500f,
-    innerRadius: Float = 250f,
+    radius: Float = 400f,
+    innerRadius: Float = 270f,
     transparentWidth: Float = 70f,
     input: List<PieChartInput>,
     centerText: String = ""
@@ -215,13 +305,13 @@ fun PieChart(
                     if (percentage > 3) {
                         rotate(rotateAngle){
                             drawText(
-                                "percentage %",
+                                "",
                                 circleCenter.x,
                                 circleCenter.y + (radius - (radius - innerRadius) / 2f) * factor,
                                 Paint().apply {
-                                    textSize = 13.sp.toPx()
-                                    textAlign = Paint.Align.CENTER
-                                    color = LightGray.toArgb()
+//                                    textSize = 13.sp.toPx()
+//                                    textAlign = Paint.Align.CENTER
+//                                    color = Color.Black.toArgb()
                                 }
                             )
                         }
@@ -233,7 +323,7 @@ fun PieChart(
                         drawRoundRect(
                             topLeft = circleCenter,
                             size = Size(12f, radius * 1.2f),
-                            color = LightPurple,
+                            color = LightOrange,
                             cornerRadius = CornerRadius(15f, 15f)
                         )
                     }
@@ -254,7 +344,7 @@ fun PieChart(
                                 Paint().apply {
                                     textSize = 22.sp.toPx()
                                     textAlign = Paint.Align.CENTER
-                                    color = LightGray.toArgb()
+                                    color = DarkBrown.toArgb()
                                     isFakeBoldText = true
                                 }
                             )
@@ -267,7 +357,7 @@ fun PieChart(
                     drawRoundRect(
                         topLeft = circleCenter,
                         size = Size(12f, radius * 1.2f),
-                        color = LightGray,
+                        color = LightOrange,
                         cornerRadius = CornerRadius(15f, 15f)
                     )
                 }
@@ -278,13 +368,13 @@ fun PieChart(
                     circleCenter.y,
                     innerRadius,
                     Paint().apply {
-                        color = LightGreen.copy(alpha = 0.6f).toArgb()
+                        color = Grey1.toArgb()
                         setShadowLayer(10f, 0f, 0f, LightGray.toArgb())
                     }
                 )
             }
             drawCircle(
-                color = LightPurple.copy(0.2f),
+                color = LightOrange.copy(0.2f),
                 radius = innerRadius + transparentWidth / 2f
             )
         }

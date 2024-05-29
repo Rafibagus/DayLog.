@@ -59,7 +59,7 @@ import kotlin.math.atan2
 
 
 @Composable
-fun PieChartScreen(navHostController: NavHostController) {
+fun PieChartScreen(navHostController: NavHostController, selectedMood: Int) {
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -84,7 +84,6 @@ fun PieChartScreen(navHostController: NavHostController) {
                 textAlign = TextAlign.Center,
             )
         }
-
         Box(
             modifier = Modifier
                 .padding(start = 10.dp, end = 10.dp)
@@ -395,6 +394,6 @@ fun PieChart(
 @Composable
 fun PieChartScreenPreview() {
     DayLogTheme {
-        PieChartScreen(navHostController = rememberNavController())
+        PieChartScreen(navHostController = rememberNavController(), selectedMood = 2)
     }
 }

@@ -18,8 +18,8 @@
     <string name="email_invalid">Alamat surel Anda kurang tepat.</string>
     <string name="login_invalid">Gagal masuk.</string>
     <string name="registered_account">Akun sudah terdaftar.</string>
-    <string name="password_invalid">Kata sandi minimal 8 karakter dan harus memiliki setidaknya satu angka dan simbol.</string>
-    <string name="confirm_invalid">Konfirmasi kata sandi tidak sesuai.</string>
+    <string name="password_invalid">Kata sandi minimal 8 karakter.</string>
+    <string name="confirm_invalid">Kata sandi tidak sesuai.</string>
     <string name="opening">Ada rahasia atau cerita yang ingin dibagi? Biarkan daylog yang tak pernah tidur ini mendengarkan setiap waktu.</string>
     <string name="search">Cari</string>
     <string name="judul">Masukan judul</string>

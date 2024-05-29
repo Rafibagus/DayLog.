@@ -12,7 +12,9 @@ sealed class Screen(val route: String) {
     data object FormUbah: Screen("detailScreen/{$KEY_ID_DAYLOG}"){
         fun withId(id: Long) = "detailScreen/$id"
     }
-    data object Chart: Screen("pieChartScreen")
+    data object Chart: Screen("pieChartScreen/{selectedMood}"){
+        fun createRoute(selectedMood: Int) = "pieChartScreen/{selectedMood}"
+    }
 
     data object About: Screen("aboutDaylogScreen")
 

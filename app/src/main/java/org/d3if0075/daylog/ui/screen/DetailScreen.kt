@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.database.DaylogDb
+import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.util.CatatanModelFactory
 
@@ -131,7 +132,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
                         } else {
                             viewModel.update(id, judul, catatan, selectedMood) // Perbarui mood yang dipilih
                         }
-                        navController.popBackStack()
+                        navController.navigate(Screen.Chart.createRoute(selectedMood))
                     }) {
                         Icon(
                             imageVector = Icons.Outlined.Check,

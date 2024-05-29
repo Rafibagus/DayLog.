@@ -35,7 +35,7 @@ import org.d3if0075.daylog.ui.theme.Grey1
 
 @Composable
 fun AboutDaylogScreen(navHostController: NavHostController) {
-    var username by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("Agus") }
     var email by remember { mutableStateOf("agusf4@gmail.com") }
     var password by remember { mutableStateOf("password") }
 

@@ -137,16 +137,38 @@ fun RegisterScreen(navHostController: NavHostController) {
                 RegisterButton(
                     onClick = {
                         nameError = (name == "")
-                        emailError = (email == "" || !Patterns.EMAIL_ADDRESS.matcher(email).matches())
-                        enterpwError = (enterpw.isEmpty() || enterpw.length < 8)
-                        confirmpwError = (confirmpw.isEmpty() || confirmpw != enterpw)
+                        emailError = (email == "")
+                        enterpwError = (enterpw.isEmpty())
+                        confirmpwError = (confirmpw.isEmpty())
                         if (nameError || emailError || enterpwError || confirmpwError) {
                             Toast.makeText(
                                 context, context.getString(R.string.input_invalid),
                                 Toast.LENGTH_SHORT
                             ).show()
                             return@RegisterButton
-                        } else {
+                        }
+                        if (emailError || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                            Toast.makeText(
+                                context, context.getString(R.string.email_invalid),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@RegisterButton
+                        }
+                        if (enterpw.length<8){
+                            Toast.makeText(
+                                context, context.getString(R.string.password_invalid),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@RegisterButton
+                        }
+                        if (confirmpw != enterpw){
+                            Toast.makeText(
+                                context, context.getString(R.string.confirm_invalid),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@RegisterButton
+                        }
+                        else {
                             coroutineScope.launch {
                                 if (viewModel.register(name, email, enterpw, confirmpw)) {
                                     Toast.makeText(

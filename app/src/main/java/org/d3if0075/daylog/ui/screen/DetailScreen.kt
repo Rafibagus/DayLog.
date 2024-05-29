@@ -57,7 +57,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
     var judul by remember { mutableStateOf("") }
     var catatan by remember { mutableStateOf("") }
     var showMenu by remember { mutableStateOf(false) }
-    var selectedMood by remember { mutableStateOf(-1) }
+    var selectedMood by remember { mutableStateOf(-2) }
 
     LaunchedEffect(id) {
         if (id != null) {
@@ -132,7 +132,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
                         } else {
                             viewModel.update(id, judul, catatan, selectedMood) // Perbarui mood yang dipilih
                         }
-                        navController.navigate(Screen.Chart.createRoute(selectedMood))
+                        navController.popBackStack()
                     }) {
                         Icon(
                             imageVector = Icons.Outlined.Check,
@@ -163,7 +163,7 @@ fun FormCatatan(
     modifier: Modifier
 ) {
     // Variabel state untuk melacak mood yang dipilih
-    var selectedMood by remember { mutableStateOf(-1) }
+    var selectedMood by remember { mutableStateOf(-2) }
 
     Column(
         modifier = modifier

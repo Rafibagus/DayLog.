@@ -1,7 +1,10 @@
 package org.d3if0075.daylog.ui.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +31,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
+import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
+import org.d3if0075.daylog.ui.theme.Grey1
 
 @Composable
 fun ProfileScreen(navHostController: NavHostController) {
@@ -99,6 +104,62 @@ fun ProfileScreen(navHostController: NavHostController) {
             textAlign = TextAlign.Justify,
             lineHeight = 16.sp
         )
+    }
+    Box(){
+        Row(
+            modifier = Modifier
+                .size(500.dp, 68.dp)
+                .background(Grey1)
+                .align(Alignment.BottomCenter),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(50.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            navHostController.navigate(Screen.Home.route)
+                            // Handle home image click
+                        }
+                ) {
+                    Image(
+                        modifier = Modifier.align(Alignment.Center),
+                        painter = painterResource(id = R.drawable.home_house),
+                        contentDescription = stringResource(id = R.string.home)
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            navHostController.navigate(Screen.Chart.route)
+                            // Handle graph image click
+                        }
+                ) {
+                    Image(
+                        modifier = Modifier.align(Alignment.Center),
+                        painter = painterResource(id = R.drawable.analytics_graph_chart),
+                        contentDescription = stringResource(id = R.string.graph)
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            navHostController.navigate(Screen.About.route)
+                            // Handle account image click
+                        }
+                ) {
+                    Image(
+                        modifier = Modifier.align(Alignment.Center),
+                        painter = painterResource(id = R.drawable.account_user_person_square),
+                        contentDescription = stringResource(id = R.string.account)
+                    )
+                }
+            }
+        }
     }
 }
 

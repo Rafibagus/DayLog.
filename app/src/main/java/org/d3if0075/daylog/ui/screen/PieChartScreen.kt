@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,11 +29,13 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
+import org.d3if0075.daylog.model.Catatan
 import org.d3if0075.daylog.model.PieChartInput
 import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DarkBrown
@@ -57,9 +61,36 @@ import org.d3if0075.daylog.ui.theme.pink
 import kotlin.math.PI
 import kotlin.math.atan2
 
+data class Catatan(val mood: Int)
 
 @Composable
-fun PieChartScreen(navHostController: NavHostController, selectedMood: Int) {
+fun PieChartScreen(navHostController: NavHostController) {
+    // Sample catatanList
+    val catatanList = listOf(
+
+        Catatan(mood = -1),
+        Catatan(mood = 1),
+        Catatan(mood = -1),
+        Catatan(mood = 0),
+        Catatan(mood = 0)
+    )
+
+    // Calculate valueMood
+    val valueSad = catatanList.count { it.mood == -1 }
+    val valueDisappointed = catatanList.count { it.mood == -1 }
+    val valueExcited = catatanList.count { it.mood == -1 }
+    val valueHappy = catatanList.count { it.mood == -1 }
+    val valueCalm = catatanList.count { it.mood == -1 }
+
+    // Define moodData with updated value
+    val moodData = listOf(
+        PieChartInput(color = LightGray, value = if (valueSad > 0) valueSad else 1, description = "Sad", image = R.drawable.baseline_sentiment_dissatisfied_24),
+        PieChartInput(color = LightGreen, value = 1, description = "Dissapointed", image = R.drawable.baseline_sentiment_very_dissatisfied_24),
+        PieChartInput(color = LightPurple, value = 1, description = "Calm", image = R.drawable.baseline_sentiment_dissatisfied_24),
+        PieChartInput(color = LightOrange, value = 1, description = "Happy", image = R.drawable.baseline_sentiment_satisfied_alt_24),
+        PieChartInput(color = pink, value = 1, description = "Excited", image = R.drawable.baseline_sentiment_very_satisfied_24)
+    )
+
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -75,7 +106,6 @@ fun PieChartScreen(navHostController: NavHostController, selectedMood: Int) {
                 .background(Grey1, shape = RoundedCornerShape(16.dp)),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-
         ) {
             Text(
                 text = "April 2024",
@@ -84,6 +114,7 @@ fun PieChartScreen(navHostController: NavHostController, selectedMood: Int) {
                 textAlign = TextAlign.Center,
             )
         }
+
         Box(
             modifier = Modifier
                 .padding(start = 10.dp, end = 10.dp)
@@ -104,35 +135,44 @@ fun PieChartScreen(navHostController: NavHostController, selectedMood: Int) {
                 modifier = Modifier
                     .size(500.dp)
                     .align(Alignment.Center),
-                input = listOf(
-                    PieChartInput(
-                        color = LightGray,
-                        value = 1,
-                        description = "Sad"
-                    ),
-                    PieChartInput(
-                        color = LightGreen,
-                        value = 1,
-                        description = "Dissapointed"
-                    ),
-                    PieChartInput(
-                        color = LightPurple,
-                        value = 1,
-                        description = "Calm"
-                    ),
-                    PieChartInput(
-                        color = LightOrange,
-                        value = 1,
-                        description = "Happy"
-                    ),
-                    PieChartInput(
-                        color = pink,
-                        value = 1,
-                        description = "Excited"
-                    ),
-                ),
+                input = moodData,
                 centerText = "Mood Chart"
             )
+        }
+
+//            PieChart(
+//                modifier = Modifier
+//                    .size(500.dp)
+//                    .align(Alignment.Center),
+//                input = listOf(
+//                    PieChartInput(
+//                        color = LightGray,
+//                        value = 1,
+//                        description = "Sad"
+//                    ),
+//                    PieChartInput(
+//                        color = LightGreen,
+//                        value = 1,
+//                        description = "Dissapointed"
+//                    ),
+//                    PieChartInput(
+//                        color = LightPurple,
+//                        value = 1,
+//                        description = "Calm"
+//                    ),
+//                    PieChartInput(
+//                        color = LightOrange,
+//                        value = 1,
+//                        description = "Happy"
+//                    ),
+//                    PieChartInput(
+//                        color = pink,
+//                        value = 1,
+//                        description = "Excited"
+//                    ),
+//                ),
+//                centerText = "Mood Chart"
+//            )
         }
         Box(
             modifier = Modifier
@@ -189,7 +229,6 @@ fun PieChartScreen(navHostController: NavHostController, selectedMood: Int) {
                     }
                 }
             }
-        }
 
     }
 }
@@ -349,6 +388,18 @@ fun PieChart(
                             )
                         }
                     }
+//                    rotate(rotateAngle){
+//                        drawContext.canvas.nativeCanvas.apply {
+//                            drawImage(
+//                                image = ImageBitmap.imageResource(PieChartInput.image),
+//                                topLeft = Offset(
+//                                    x = circleCenter.x - moodIcon.intrinsicSize.width / 2,
+//                                    y = circleCenter.y + radius * 1.3f * factor - moodIcon.intrinsicSize.height / 2
+//                                ),
+//                                alpha = 1.0f
+//                            )
+//                        }
+//                    }
                 }
             }
             if (inputList.first().isTapped){
@@ -394,6 +445,6 @@ fun PieChart(
 @Composable
 fun PieChartScreenPreview() {
     DayLogTheme {
-        PieChartScreen(navHostController = rememberNavController(), selectedMood = 2)
+        PieChartScreen(navHostController = rememberNavController())
     }
 }

@@ -1,5 +1,6 @@
 package org.d3if0075.daylog.ui.screen
 
+import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,12 +10,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -111,12 +107,12 @@ fun RegisterScreen(navHostController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
                     label = { Text("Masukkan alamat surel") },
-                    textStyle = MaterialTheme.typography.bodyLarge
+                    textStyle = MaterialTheme.typography.bodyLarge,
+                    isError = emailError
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -141,25 +137,24 @@ fun RegisterScreen(navHostController: NavHostController) {
                 RegisterButton(
                     onClick = {
                         nameError = (name == "")
-                        emailError = (email == "")
-                        enterpwError = (enterpw == "")
-                        confirmpwError = (confirmpw == "")
-                        if (nameError || emailError || enterpwError || confirmpwError){
+                        emailError = (email == "" || !Patterns.EMAIL_ADDRESS.matcher(email).matches())
+                        enterpwError = (enterpw.isEmpty() || enterpw.length < 8)
+                        confirmpwError = (confirmpw.isEmpty() || confirmpw != enterpw)
+                        if (nameError || emailError || enterpwError || confirmpwError) {
                             Toast.makeText(
                                 context, context.getString(R.string.input_invalid),
                                 Toast.LENGTH_SHORT
                             ).show()
                             return@RegisterButton
                         } else {
-                            coroutineScope.launch{
-                                if (viewModel.register(name, email, enterpw, confirmpw)){
+                            coroutineScope.launch {
+                                if (viewModel.register(name, email, enterpw, confirmpw)) {
                                     Toast.makeText(
                                         context, context.getString(R.string.input_valid),
                                         Toast.LENGTH_SHORT
                                     ).show()
                                     navHostController.navigate(Screen.Login.route)
-                                }
-                                else{
+                                } else {
                                     Toast.makeText(
                                         context, context.getString(R.string.registered_account),
                                         Toast.LENGTH_SHORT
@@ -176,10 +171,10 @@ fun RegisterScreen(navHostController: NavHostController) {
                 ClickableText(
                     text = buildAnnotatedString {
                         withStyle(SpanStyle(color = Color.Blue)) {
-                            append(stringResource(id = R.string.login))
+                            append(stringResource(id = R.string.Masuk))
                         }
                     },
-                    onClick = {navHostController.navigate(Screen.Login.route)},
+                    onClick = { navHostController.navigate(Screen.Login.route) },
                     modifier = Modifier
                         .padding(top = 8.dp),
                 )
@@ -190,7 +185,7 @@ fun RegisterScreen(navHostController: NavHostController) {
 
 @Preview(showBackground = true)
 @Composable
-fun RegisterPreview( ) {
+fun RegisterPreview() {
     DayLogTheme {
         RegisterScreen(navHostController = rememberNavController())
     }

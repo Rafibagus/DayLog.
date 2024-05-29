@@ -86,7 +86,7 @@ fun ResetScreen() {
                     text = stringResource(R.string.register_to_login)
                 )
                 Text(
-                    text = stringResource(R.string.login),
+                    text = stringResource(R.string.Masuk),
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .clickable {

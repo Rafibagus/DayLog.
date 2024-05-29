@@ -4,7 +4,7 @@
     <string name="selamat_datang">Selamat datang! \n Mulai catat keseharian \n dan momen berhargamu disini.</string>
     <string name="register_to_login">Apakah Anda sudah memiliki akun?</string>
     <string name="login_to_register">Anda belum memiliki akun?</string>
-    <string name="login">Masuk</string>
+    <string name="Masuk">Masuk</string>
     <string name="signup">Daftar</string>
     <string name="register">Daftar</string>
     <string name="reset_pw">Buat ulang kata sandi</string>

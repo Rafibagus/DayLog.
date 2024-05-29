@@ -167,7 +167,7 @@ fun FormCatatan(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 80.dp, start = 16.dp, end = 16.dp),
+            .padding( start = 16.dp, end = 16.dp),
     ) {
         OutlinedTextField(
             value = title,

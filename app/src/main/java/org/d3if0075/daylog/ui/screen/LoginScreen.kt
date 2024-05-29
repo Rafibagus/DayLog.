@@ -91,7 +91,7 @@ fun LoginScreen(navHostController: NavHostController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(R.string.login),
+                    text = stringResource(R.string.Masuk),
                     fontSize = 20.sp,
                     modifier = Modifier
                 )

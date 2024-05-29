@@ -3,7 +3,6 @@ package org.d3if0075.daylog.ui.screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import org.d3if0075.daylog.database.CatatanDao
 import org.d3if0075.daylog.model.Catatan
 

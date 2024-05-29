@@ -56,6 +56,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
     var judul by remember { mutableStateOf("") }
     var catatan by remember { mutableStateOf("") }
     var showMenu by remember { mutableStateOf(false) }
+    var selectedMood by remember { mutableStateOf(-1) }
 
     LaunchedEffect(id) {
         if (id != null) {
@@ -63,6 +64,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
             if (data != null) {
                 judul = data.judul
                 catatan = data.catatan
+                selectedMood = data.mood // Ambil mood dari data
             }
         }
     }
@@ -125,9 +127,9 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
                             return@IconButton
                         }
                         if (id == null) {
-                            viewModel.insert(judul, catatan)
+                            viewModel.insert(judul, catatan, selectedMood) // Simpan mood yang dipilih
                         } else {
-                            viewModel.update(id, judul, catatan)
+                            viewModel.update(id, judul, catatan, selectedMood) // Perbarui mood yang dipilih
                         }
                         navController.popBackStack()
                     }) {
@@ -159,12 +161,14 @@ fun FormCatatan(
     desc: String, onDescChange: (String) -> Unit,
     modifier: Modifier
 ) {
+    // Variabel state untuk melacak mood yang dipilih
+    var selectedMood by remember { mutableStateOf(-1) }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(top = 80.dp, start = 16.dp, end = 16.dp),
-
-        ) {
+    ) {
         OutlinedTextField(
             value = title,
             onValueChange = { onTitleChange(it) },
@@ -177,26 +181,24 @@ fun FormCatatan(
             modifier = Modifier
                 .fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                containerColor =  Color(0xFFEEE3CB),
+                containerColor = Color(0xFFEEE3CB),
                 focusedBorderColor = Color(0xFFEEE3CB),
                 unfocusedBorderColor = Color(0xFFEEE3CB)
             )
         )
-        //mood emoticon
+        // Emotikon mood
         Row(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp)
-                .clickable { }
                 .border(
                     1.dp, Color(0xFFEEE3CB), shape = RoundedCornerShape(8.dp)
-                ) // Added border around the row
-                .padding(8.dp) // Add padding inside the border
-
+                ) // Menambahkan border di sekitar row
+                .padding(8.dp) // Menambahkan padding di dalam border
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally, // Align items horizontally to the center within the Column
+                horizontalAlignment = Alignment.CenterHorizontally, // Menyelaraskan item secara horizontal di tengah dalam Column
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
@@ -205,7 +207,7 @@ fun FormCatatan(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                    // List of vector assets for moods
+                    // Daftar aset vektor untuk mood
                     val moodIcons = listOf(
                         R.drawable.excited,
                         R.drawable.baseline_sentiment_satisfied_alt_24,
@@ -224,14 +226,18 @@ fun FormCatatan(
                         Icon(
                             painter = painterResource(id = iconRes),
                             contentDescription = "Mood Icon",
-                            tint = moodColors[index],
-                            modifier = Modifier.size(60.dp) // Set the size of the icons
+                            tint = if (selectedMood == index) Color.Black else moodColors[index], // Mengubah tint berdasarkan pilihan
+                            modifier = Modifier
+                                .size(60.dp) // Mengatur ukuran ikon
+                                .clickable {
+                                    selectedMood = index // Memperbarui mood yang dipilih saat diklik
+                                }
                         )
                     }
                 }
             }
         }
-        //isi catatan
+        // Isi catatan
         OutlinedTextField(
             value = desc,
             onValueChange = { onDescChange(it) },
@@ -250,6 +256,7 @@ fun FormCatatan(
         )
     }
 }
+
 
 
 @Preview(showBackground = true)

@@ -9,10 +9,11 @@ import org.d3if0075.daylog.model.Catatan
 
 class DetailViewModel(private val dao: CatatanDao) : ViewModel() {
 
-    fun insert(judul: String, catatan: String){
+    fun insert(judul: String, catatan: String, mood: Int){
         val catatan = Catatan(
             judul = judul,
-            catatan = catatan
+            catatan = catatan,
+            mood = mood
         )
         viewModelScope.launch(Dispatchers.IO) {
             dao.insert(catatan)
@@ -27,11 +28,12 @@ class DetailViewModel(private val dao: CatatanDao) : ViewModel() {
 //        )
     }
 
-    fun update(id: Long, judul: String, catatan: String){
+    fun update(id: Long, judul: String, catatan: String, mood: Int){
         val catatan = Catatan(
             id = id,
             judul = judul,
-            catatan = catatan
+            catatan = catatan,
+            mood = mood
         )
         viewModelScope.launch(Dispatchers.IO) {
             dao.update(catatan)

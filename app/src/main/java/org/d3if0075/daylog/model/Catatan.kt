@@ -9,7 +9,8 @@ data class Catatan(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val judul: String,
-    val catatan: String
+    val catatan: String,
+    val mood: Int
 )
 
 

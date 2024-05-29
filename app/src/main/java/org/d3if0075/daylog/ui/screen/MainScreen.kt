@@ -46,6 +46,7 @@ import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.ui.theme.Grey1
 import org.d3if0075.daylog.util.CatatanModelFactory
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navHostController: NavHostController) {
@@ -237,8 +238,20 @@ fun ListItem(catatan: Catatan, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onClick() }
+            .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        // Mood icon on the left
+        Icon(
+            painter = painterResource(id = getMoodIcon(catatan.mood)),
+            contentDescription = "Mood Icon",
+            tint = getMoodColor(catatan.mood), // Set the color of the icon
+            modifier = Modifier
+                .size(48.dp)
+                .padding(end = 8.dp)
+        )
+
+        // Text column
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -257,9 +270,32 @@ fun ListItem(catatan: Catatan, onClick: () -> Unit) {
                 overflow = TextOverflow.Ellipsis
             )
         }
-        IconButton(onClick = { /* TODO: Add more actions here if needed */ }) {
-            Icon(imageVector = Icons.Filled.MoreVert, contentDescription = "More")
-        }
+    }
+}
+
+@Composable
+fun getMoodIcon(mood: Int): Int {
+    return when (mood) {
+        0 -> R.drawable.excited
+        1 -> R.drawable.baseline_sentiment_satisfied_alt_24
+        2 -> R.drawable.baseline_sentiment_very_satisfied_24
+        3 -> R.drawable.baseline_sentiment_dissatisfied_24
+        4 -> R.drawable.baseline_sentiment_very_dissatisfied_24
+        else ->
+            R.drawable.baseline_sentiment_very_satisfied_24 // Default icon
+    }
+}
+
+@Composable
+fun getMoodColor(mood: Int): Color {
+    return when (mood) {
+        0 -> Color.Red
+        1 -> Color.Gray
+        2 -> Color.Green
+        3 -> Color.Yellow
+        4 -> Color.Blue
+        else ->
+            Color.Black // Default color
     }
 }
 

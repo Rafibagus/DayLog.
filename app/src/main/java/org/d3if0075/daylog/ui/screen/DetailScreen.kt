@@ -42,6 +42,7 @@ import org.d3if0075.daylog.R
 import org.d3if0075.daylog.database.DaylogDb
 import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
+import org.d3if0075.daylog.ui.theme.pink
 import org.d3if0075.daylog.util.CatatanModelFactory
 
 const val KEY_ID_DAYLOG = "idDaylog"
@@ -57,7 +58,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
     var judul by remember { mutableStateOf("") }
     var catatan by remember { mutableStateOf("") }
     var showMenu by remember { mutableStateOf(false) }
-    var selectedMood by remember { mutableStateOf(-2) }
+    var selectedMood by remember { mutableStateOf(0) }
 
     LaunchedEffect(id) {
         if (id != null) {
@@ -149,10 +150,13 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
             onTitleChange = { judul = it },
             desc = catatan,
             onDescChange = { catatan = it },
+            mood = selectedMood,
+            onMoodChange = { selectedMood = it }, // Propagate mood changes
             modifier = Modifier.padding(padding)
         )
     }
 }
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -160,15 +164,14 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
 fun FormCatatan(
     title: String, onTitleChange: (String) -> Unit,
     desc: String, onDescChange: (String) -> Unit,
+    mood: Int, onMoodChange: (Int) -> Unit, // Add onMoodChange callback
     modifier: Modifier
 ) {
-    // Variabel state untuk melacak mood yang dipilih
-    var selectedMood by remember { mutableStateOf(-2) }
-
+    // Use the mood parameter directly instead of managing separate state
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding( start = 16.dp, end = 16.dp),
+            .padding(start = 16.dp, end = 16.dp),
     ) {
         OutlinedTextField(
             value = title,
@@ -179,8 +182,7 @@ fun FormCatatan(
                 capitalization = KeyboardCapitalization.Words,
                 imeAction = ImeAction.Next
             ),
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 containerColor = Color(0xFFEEE3CB),
                 focusedBorderColor = Color(0xFFEEE3CB),
@@ -210,28 +212,28 @@ fun FormCatatan(
                 Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                     // Daftar aset vektor untuk mood
                     val moodIcons = listOf(
-                        R.drawable.excited,
-                        R.drawable.baseline_sentiment_satisfied_alt_24,
                         R.drawable.baseline_sentiment_very_satisfied_24,
+                        R.drawable.baseline_sentiment_satisfied_alt_24,
+                        R.drawable.baseline_sentiment_satisfied_24,
                         R.drawable.baseline_sentiment_dissatisfied_24,
                         R.drawable.baseline_sentiment_very_dissatisfied_24,
                     )
                     val moodColors = listOf(
-                        Color.Red,
-                        Color.Gray,
-                        Color.Green,
-                        Color.Yellow,
-                        Color.Blue
+                        Color(0xFFFFA7AC),
+                        Color(0XFF9BABB8),
+                        Color(0XFF69B2B2),
+                        Color(0XFFF1C9AA),
+                        Color(0XFFD2B5D1)
                     )
                     moodIcons.forEachIndexed { index, iconRes ->
                         Icon(
                             painter = painterResource(id = iconRes),
                             contentDescription = "Mood Icon",
-                            tint = if (selectedMood == index) Color.Black else moodColors[index], // Mengubah tint berdasarkan pilihan
+                            tint = if (mood == index) Color.Black else moodColors[index], // Mengubah tint berdasarkan pilihan
                             modifier = Modifier
                                 .size(60.dp) // Mengatur ukuran ikon
                                 .clickable {
-                                    selectedMood = index // Memperbarui mood yang dipilih saat diklik
+                                    onMoodChange(index) // Propagate mood change
                                 }
                         )
                     }

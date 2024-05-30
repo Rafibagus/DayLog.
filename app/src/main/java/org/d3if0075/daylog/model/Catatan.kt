@@ -10,7 +10,7 @@ data class Catatan(
     val id: Long = 0L,
     val judul: String,
     val catatan: String,
-    val mood: Int
+    var mood: Int
 )
 
 

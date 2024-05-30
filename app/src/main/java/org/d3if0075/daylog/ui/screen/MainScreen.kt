@@ -255,6 +255,7 @@ fun ListItem(catatan: Catatan, onClick: () -> Unit) {
         Column(
             modifier = Modifier.weight(1f)
         ) {
+//            Text(text = catatan.mood.toString())
             Text(
                 text = catatan.judul,
                 fontSize = 18.sp,
@@ -276,24 +277,24 @@ fun ListItem(catatan: Catatan, onClick: () -> Unit) {
 @Composable
 fun getMoodIcon(mood: Int): Int {
     return when (mood) {
-        0 -> R.drawable.excited
+        0 -> R.drawable.baseline_sentiment_very_satisfied_24
         1 -> R.drawable.baseline_sentiment_satisfied_alt_24
-        2 -> R.drawable.baseline_sentiment_very_satisfied_24
+        2 -> R.drawable.baseline_sentiment_satisfied_24
         3 -> R.drawable.baseline_sentiment_dissatisfied_24
         4 -> R.drawable.baseline_sentiment_very_dissatisfied_24
         else ->
-            R.drawable.baseline_sentiment_very_satisfied_24 // Default icon
+            R.drawable.baseline_sentiment_very_dissatisfied_24 // Default icon
     }
 }
 
 @Composable
 fun getMoodColor(mood: Int): Color {
     return when (mood) {
-        0 -> Color.Red
-        1 -> Color.Gray
-        2 -> Color.Green
-        3 -> Color.Yellow
-        4 -> Color.Blue
+        0 -> Color(0xFFFFA7AC)
+        1 -> Color(0XFF9BABB8)
+        2 -> Color(0XFF69B2B2)
+        3 -> Color(0XFFF1C9AA)
+        4 -> Color(0XFFD2B5D1)
         else ->
             Color.Black // Default color
     }

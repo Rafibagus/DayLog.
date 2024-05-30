@@ -23,14 +23,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
+import org.d3if0075.daylog.database.DaylogDb
 import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.ui.theme.Grey1
+import org.d3if0075.daylog.util.CatatanModelFactory
 
 
 @Composable
@@ -38,6 +42,28 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
     var username by remember { mutableStateOf("Agus") }
     var email by remember { mutableStateOf("agusf4@gmail.com") }
     var password by remember { mutableStateOf("password") }
+
+    val context = LocalContext.current
+    val db = DaylogDb.getInstance(context)
+    val factory = CatatanModelFactory(db.catatanDao)
+    val viewModel: MainViewModel = viewModel(factory = factory)
+    val data by viewModel.data.collectAsState()
+
+    // Mood count variables
+    var sad by remember { mutableStateOf(0) }
+    var disappointed by remember { mutableStateOf(0) }
+    var calm by remember { mutableStateOf(0) }
+    var happy by remember { mutableStateOf(0) }
+    var excited by remember { mutableStateOf(0) }
+
+    // Count moods
+    LaunchedEffect(data) {
+        sad = data.count { it.mood == 3 }
+        disappointed = data.count { it.mood == 4 }
+        calm = data.count { it.mood == 2 }
+        happy = data.count { it.mood == 1 }
+        excited = data.count { it.mood == 0 }
+    }
 
     Box(
         modifier = Modifier
@@ -188,11 +214,10 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                 }
 
                 Box(
-                    modifier = Modifier
-                        .clickable {
-                            navHostController.navigate(Screen.Chart.route)
-                            // Handle graph image click
-                        }
+                    modifier = Modifier.clickable {
+                        navHostController.navigate(Screen.Chart.route + "/${sad}/${disappointed}/${calm}/${happy}/${excited}")
+                        // Handle graph image click
+                    }
                 ) {
                     Image(
                         modifier = Modifier.align(Alignment.Center),
@@ -204,7 +229,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                 Box(
                     modifier = Modifier
                         .clickable {
-                            navHostController.navigate(Screen.About.route)
+
                             // Handle account image click
                         }
                 ) {

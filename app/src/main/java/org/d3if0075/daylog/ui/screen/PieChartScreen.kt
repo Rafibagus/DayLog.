@@ -18,10 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,79 +28,36 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
-import org.d3if0075.daylog.database.DaylogDb
-import org.d3if0075.daylog.model.Catatan
 import org.d3if0075.daylog.model.PieChartInput
 import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DarkBrown
-import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.ui.theme.Grey1
 import org.d3if0075.daylog.ui.theme.LightGray
 import org.d3if0075.daylog.ui.theme.LightGreen
 import org.d3if0075.daylog.ui.theme.LightOrange
 import org.d3if0075.daylog.ui.theme.LightPurple
 import org.d3if0075.daylog.ui.theme.pink
-import org.d3if0075.daylog.util.CatatanModelFactory
 import kotlin.math.PI
 import kotlin.math.atan2
 
 data class Catatan(val mood: Int)
 
 @Composable
-fun PieChartScreen(navHostController: NavHostController) {
-    val context = LocalContext.current
-    val db = DaylogDb.getInstance(context)
-    val factory = CatatanModelFactory(db.catatanDao)
-    val viewModel : MainViewModel = viewModel(factory = factory)
-    val data by viewModel.data.collectAsState(initial = emptyList())
-
-    var sad by remember {
-        mutableIntStateOf(0)
-    }
-    var excited by remember {
-        mutableIntStateOf(0)
-    }
-    var happy by remember {
-        mutableIntStateOf(0)
-    }
-    var calm by remember {
-        mutableIntStateOf(0)
-    }
-    var disappointed by remember {
-        mutableIntStateOf(0)
-    }
-
-    data.forEach { catatan ->
-        when (catatan.mood) {
-            0 -> sad += 1
-            1 -> disappointed += 1
-            2 -> calm += 1
-            3 -> happy += 1
-            4 -> excited += 1
-        }
-    }
-
-    // Define moodData with updated value
+fun PieChartScreen(navHostController: NavHostController, sad: Int, disappointed: Int, calm: Int, happy: Int, excited: Int) {
     val moodData = listOf(
         PieChartInput(color = LightGray, value = sad, description = "Sad", image = R.drawable.baseline_sentiment_dissatisfied_24),
         PieChartInput(color = LightGreen, value = disappointed, description = "Disappointed", image = R.drawable.baseline_sentiment_very_dissatisfied_24),
@@ -142,7 +96,7 @@ fun PieChartScreen(navHostController: NavHostController) {
                 .background(Grey1, shape = RoundedCornerShape(16.dp))
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
-        ){
+        ) {
             Text(
                 text = "Mood Chart",
                 fontSize = 25.sp,
@@ -225,7 +179,7 @@ fun PieChartScreen(navHostController: NavHostController) {
 
                     Box(
                         modifier = Modifier.clickable {
-                            navHostController.navigate(Screen.Chart.route)
+
                             // Handle graph image click
                         }
                     ) {
@@ -462,10 +416,10 @@ fun PieChart(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PieChartScreenPreview() {
-    DayLogTheme {
-        PieChartScreen(navHostController = rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PieChartScreenPreview() {
+//    DayLogTheme {
+//        PieChartScreen(navHostController = rememberNavController())
+//    }
+//}

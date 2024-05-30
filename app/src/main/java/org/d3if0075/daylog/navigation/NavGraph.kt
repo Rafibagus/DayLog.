@@ -10,11 +10,9 @@ import androidx.navigation.navArgument
 import org.d3if0075.daylog.ui.screen.AboutDaylogScreen
 import org.d3if0075.daylog.ui.screen.DetailScreen
 import org.d3if0075.daylog.ui.screen.KEY_ID_DAYLOG
-import org.d3if0075.daylog.ui.screen.LineChartScreen
 import org.d3if0075.daylog.ui.screen.LoadingScreen
 import org.d3if0075.daylog.ui.screen.LoginScreen
 import org.d3if0075.daylog.ui.screen.MainScreen
-import org.d3if0075.daylog.ui.screen.PieChart
 import org.d3if0075.daylog.ui.screen.PieChartScreen
 import org.d3if0075.daylog.ui.screen.ProfileScreen
 import org.d3if0075.daylog.ui.screen.RegisterScreen
@@ -54,9 +52,25 @@ fun SetupNavGraph(navHostController: NavHostController = rememberNavController()
             val id = navBackStackEntry.arguments?.getLong(KEY_ID_DAYLOG)
             DetailScreen(navHostController, id)
         }
-        composable(route = Screen.Chart.route){
-            PieChartScreen(navHostController)
+        composable(
+            route = Screen.Chart.route + "/{sad}/{disappointed}/{calm}/{happy}/{excited}",
+            arguments = listOf(
+                navArgument("sad") { type = NavType.IntType },
+                navArgument("disappointed") { type = NavType.IntType },
+                navArgument("calm") { type = NavType.IntType },
+                navArgument("happy") { type = NavType.IntType },
+                navArgument("excited") { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val sad = backStackEntry.arguments?.getInt("sad") ?: 0
+            val disappointed = backStackEntry.arguments?.getInt("disappointed") ?: 0
+            val calm = backStackEntry.arguments?.getInt("calm") ?: 0
+            val happy = backStackEntry.arguments?.getInt("happy") ?: 0
+            val excited = backStackEntry.arguments?.getInt("excited") ?: 0
+
+            PieChartScreen(navHostController, sad, disappointed, calm, happy, excited)
         }
+
         composable(route = Screen.About.route){
             AboutDaylogScreen(navHostController)
         }

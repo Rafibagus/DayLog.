@@ -39,8 +39,8 @@ import org.d3if0075.daylog.util.CatatanModelFactory
 
 @Composable
 fun AboutDaylogScreen(navHostController: NavHostController) {
-    var username by remember { mutableStateOf("Agus") }
-    var email by remember { mutableStateOf("agusf4@gmail.com") }
+    var username by remember { mutableStateOf("raendhana") }
+    var email by remember { mutableStateOf("raendhana@gmail.com") }
     var password by remember { mutableStateOf("password") }
 
     val context = LocalContext.current
@@ -120,6 +120,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                     onValueChange = { username = it },
                     label = { Text("Nama pengguna") },
                     singleLine = true,
+                    enabled = false,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -139,6 +140,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                     onValueChange = { password = it },
                     label = { Text("Kata sandi") },
                     singleLine = true,
+                    enabled = false,
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier
                         .fillMaxWidth()

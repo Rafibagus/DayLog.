@@ -24,5 +24,9 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE email = :email")
     suspend fun getUserByEmail(email: String): User?
 
+    @Query("UPDATE user SET password = :newPassword WHERE email = :email")
+    suspend fun updatePasswordByEmail(email: String, newPassword:String)
+
+
 }
 

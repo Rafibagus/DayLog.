@@ -19,4 +19,7 @@ sealed class Screen(val route: String) {
     data object About: Screen("aboutDaylogScreen")
 
     data object Profile: Screen("profileScreen")
+    object ResetPw : Screen("reset_pw_screen")
+    object NewPw : Screen("new_pw_screen/{userId}")
+
 }

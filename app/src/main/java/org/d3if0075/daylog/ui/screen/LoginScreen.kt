@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -40,14 +42,13 @@ import org.d3if0075.daylog.database.DaylogDb
 import org.d3if0075.daylog.model.LoginViewModel
 import org.d3if0075.daylog.model.loadImage
 import org.d3if0075.daylog.navigation.Screen
+import org.d3if0075.daylog.ui.theme.DarkBrown
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.util.ViewModelFactory
 
 @Composable
-fun LoginScreen(navHostController: NavHostController) {
+fun LoginScreen(navController: NavHostController) {
     val backgroundImage = loadImage(R.drawable.background_daylog)
-    val kaisade = FontFamily(Font(R.font.kaisei_decol_bold))
-
     val context = LocalContext.current
     val db = DaylogDb.getInstance(context)
     val factory = ViewModelFactory(db.dao)
@@ -61,7 +62,9 @@ fun LoginScreen(navHostController: NavHostController) {
     var enterpwError by remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFEAD9CB)) // Background color to match the image background
     ) {
         Image(
             bitmap = backgroundImage,
@@ -69,7 +72,6 @@ fun LoginScreen(navHostController: NavHostController) {
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds
         )
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -78,9 +80,9 @@ fun LoginScreen(navHostController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.logo),
+                text = "daylog.",
                 fontSize = 36.sp,
-                fontFamily = kaisade,
+                fontFamily = FontFamily(Font(R.font.kaisei_decol_bold)),
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Column(
@@ -91,69 +93,79 @@ fun LoginScreen(navHostController: NavHostController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(R.string.Masuk),
+                    text = "Login",
                     fontSize = 20.sp,
-                    modifier = Modifier
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text("Alamat surel") },
-                    textStyle = MaterialTheme.typography.bodyLarge
+                    label = { Text("Enter email") },
+                    isError = emailError,
+                    modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-
                 OutlinedTextField(
                     value = enterpw,
                     onValueChange = { enterpw = it },
-                    label = { Text("Kata sandi") },
+                    label = { Text("Enter password") },
                     visualTransformation = PasswordVisualTransformation(),
-                    textStyle = MaterialTheme.typography.bodyLarge
+                    isError = enterpwError,
+                    modifier = Modifier.fillMaxWidth()
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = stringResource(R.string.forgot_password),
+                        text = "Forgot Password?",
                         modifier = Modifier
                             .padding(top = 8.dp)
                             .clickable {
-                                // ini untuk menuju halaman lupa password
+                                navController.navigate(Screen.ResetPw.route)
                             },
                         color = Color.Blue
                     )
                 }
 
-                LoginButton(onClick = {coroutineScope.launch {
-                    if (viewModel.login(
-                            email,
-                            enterpw
-                        )
-                    ) navHostController.navigate(Screen.Home.route)
-                    else Toast.makeText(
-                        context,
-                        context.getString(R.string.login_invalid),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    } }
-                )
-
                 Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = stringResource(R.string.login_to_register)
-                )
-                ClickableText(
-                    text = buildAnnotatedString {
-                        withStyle(SpanStyle(color = Color.Blue)) {
-                            append(stringResource(id = R.string.register))
+                Button(
+                    onClick = {
+                        coroutineScope.launch {
+                            if (viewModel.login(email, enterpw)) {
+                                navController.navigate(Screen.Home.route)
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Invalid login credentials",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     },
-                    onClick = {navHostController.navigate(Screen.Register.route)},
                     modifier = Modifier
-                        .padding(top = 8.dp),
-                )
+                        .padding(horizontal = 8.dp),
+                    shape = MaterialTheme.shapes.extraSmall,
+                    colors = ButtonDefaults.buttonColors(DarkBrown)
+                ) {
+                    Text(text = "Login")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(text = "You don't have an account yet?")
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "SignUp",
+                        modifier = Modifier.clickable {
+                            navController.navigate(Screen.Register.route)
+                        },
+                        color = Color.Blue
+                    )
+                }
             }
         }
     }
@@ -161,8 +173,6 @@ fun LoginScreen(navHostController: NavHostController) {
 
 @Preview(showBackground = true)
 @Composable
-fun LoginPreview( ) {
-    DayLogTheme {
-        LoginScreen(navHostController = rememberNavController())
-    }
+fun LoginPreview() {
+    LoginScreen(navController = rememberNavController())
 }

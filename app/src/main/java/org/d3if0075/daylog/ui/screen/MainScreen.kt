@@ -140,14 +140,9 @@ fun MainScreen(navHostController: NavHostController) {
                         modifier = Modifier.padding(end = 16.dp)
                     ) {
                         Text(
-                            text = "Hai,",
-                            fontSize = 16.sp,
-                            color = Color.Gray
-                        )
-                        Text(
-                            text = "Agus",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
+                            text = "Hai",
+                            fontSize = 18.sp,
+                            color = Color.Black
                         )
                     }
                     OutlinedTextField(

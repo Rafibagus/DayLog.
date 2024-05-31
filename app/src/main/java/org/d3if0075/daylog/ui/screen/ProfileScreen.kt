@@ -108,7 +108,7 @@ fun ProfileScreen(navHostController: NavHostController) {
     Box(){
         Row(
             modifier = Modifier
-                .size(500.dp, 68.dp)
+                .size(500.dp, 65.dp)
                 .background(Grey1)
                 .align(Alignment.BottomCenter),
             verticalAlignment = Alignment.CenterVertically,

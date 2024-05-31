@@ -117,47 +117,6 @@ fun ProfileScreen(navHostController: NavHostController) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(50.dp)
             ) {
-                Box(
-                    modifier = Modifier
-                        .clickable {
-                            navHostController.navigate(Screen.Home.route)
-                            // Handle home image click
-                        }
-                ) {
-                    Image(
-                        modifier = Modifier.align(Alignment.Center),
-                        painter = painterResource(id = R.drawable.home_house),
-                        contentDescription = stringResource(id = R.string.home)
-                    )
-                }
-
-                Box(
-                    modifier = Modifier
-                        .clickable {
-                            navHostController.navigate(Screen.Chart.route)
-                            // Handle graph image click
-                        }
-                ) {
-                    Image(
-                        modifier = Modifier.align(Alignment.Center),
-                        painter = painterResource(id = R.drawable.analytics_graph_chart),
-                        contentDescription = stringResource(id = R.string.graph)
-                    )
-                }
-
-                Box(
-                    modifier = Modifier
-                        .clickable {
-                            navHostController.navigate(Screen.About.route)
-                            // Handle account image click
-                        }
-                ) {
-                    Image(
-                        modifier = Modifier.align(Alignment.Center),
-                        painter = painterResource(id = R.drawable.account_user_person_square),
-                        contentDescription = stringResource(id = R.string.account)
-                    )
-                }
             }
         }
     }

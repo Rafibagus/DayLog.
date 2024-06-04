@@ -85,7 +85,7 @@ fun ResetScreen(navController: NavHostController) {
                 OutlinedTextField(
                     value = email.value,
                     onValueChange = { email.value = it },
-                    label = { Text("Email") },
+                    label = { Text(text = stringResource(id = R.string.email)) },
                     textStyle = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))

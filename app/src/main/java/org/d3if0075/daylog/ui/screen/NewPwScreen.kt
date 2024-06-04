@@ -84,7 +84,7 @@ fun NewPwScreen(userId: Long, navController: NavHostController) {
                 OutlinedTextField(
                     value = newpw.value,
                     onValueChange = { newpw.value = it },
-                    label = { Text("Enter New Password") },
+                    label = { Text(text = stringResource(id = R.string.enter_new_pw)) },
                     textStyle = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -92,7 +92,7 @@ fun NewPwScreen(userId: Long, navController: NavHostController) {
                 OutlinedTextField(
                     value = newconfirmpw.value,
                     onValueChange = { newconfirmpw.value = it },
-                    label = { Text("Confirm New Password") },
+                    label = { Text(text = stringResource(id = R.string.confirm_new_pw)) },
                     visualTransformation = PasswordVisualTransformation(),
                     textStyle = MaterialTheme.typography.bodyLarge
                 )

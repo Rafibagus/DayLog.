@@ -100,7 +100,7 @@ fun LoginScreen(navController: NavHostController) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text("Enter email") },
+                    label = { Text("Masukkan alamat surel") },
                     isError = emailError,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -108,7 +108,7 @@ fun LoginScreen(navController: NavHostController) {
                 OutlinedTextField(
                     value = enterpw,
                     onValueChange = { enterpw = it },
-                    label = { Text("Enter password") },
+                    label = { Text("Masukkan kata sandi") },
                     visualTransformation = PasswordVisualTransformation(),
                     isError = enterpwError,
                     modifier = Modifier.fillMaxWidth()
@@ -119,7 +119,7 @@ fun LoginScreen(navController: NavHostController) {
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = "Forgot Password?",
+                        text = stringResource(id = R.string.forgot_password),
                         modifier = Modifier
                             .padding(top = 8.dp)
                             .clickable {
@@ -149,17 +149,17 @@ fun LoginScreen(navController: NavHostController) {
                     shape = MaterialTheme.shapes.extraSmall,
                     colors = ButtonDefaults.buttonColors(DarkBrown)
                 ) {
-                    Text(text = "Login")
+                    Text(text = stringResource(id = R.string.Masuk))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "You don't have an account yet?")
+                    Text(text = stringResource(id = R.string.login_to_register))
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "SignUp",
+                        text = stringResource(id = R.string.signup),
                         modifier = Modifier.clickable {
                             navController.navigate(Screen.Register.route)
                         },

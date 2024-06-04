@@ -84,7 +84,7 @@ fun PieChartScreen(navHostController: NavHostController, sad: Int, disappointed:
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "April 2024",
+                text = "Mei 2024",
                 fontSize = 20.sp,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
@@ -288,9 +288,7 @@ fun PieChart(
                                 circleCenter.x,
                                 circleCenter.y + (radius - (radius - innerRadius) / 2f) * factor,
                                 Paint().apply {
-                                    // textSize = 13.sp.toPx()
-                                    // textAlign = Paint.Align.CENTER
-                                    // color = Color.Black.toArgb()
+
                                 }
                             )
                         }

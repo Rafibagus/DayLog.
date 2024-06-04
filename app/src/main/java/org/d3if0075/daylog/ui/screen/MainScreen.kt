@@ -287,7 +287,6 @@ fun ListItem(catatan: Catatan, onClick: () -> Unit) {
         Column(
             modifier = Modifier.weight(1f)
         ) {
-//            Text(text = catatan.mood.toString())
             Text(
                 text = catatan.judul,
                 fontSize = 18.sp,

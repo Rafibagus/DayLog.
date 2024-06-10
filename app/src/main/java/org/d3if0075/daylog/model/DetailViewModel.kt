@@ -1,4 +1,4 @@
-package org.d3if0075.daylog.ui.screen
+package org.d3if0075.daylog.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

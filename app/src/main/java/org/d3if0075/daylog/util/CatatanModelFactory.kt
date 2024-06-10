@@ -3,8 +3,8 @@ package org.d3if0075.daylog.util
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.d3if0075.daylog.database.CatatanDao
-import org.d3if0075.daylog.ui.screen.DetailViewModel
-import org.d3if0075.daylog.ui.screen.MainViewModel
+import org.d3if0075.daylog.model.DetailViewModel
+import org.d3if0075.daylog.model.MainViewModel
 
 class CatatanModelFactory(private val catatanDao: CatatanDao): ViewModelProvider.Factory {
     @Suppress("unchecked_cast")

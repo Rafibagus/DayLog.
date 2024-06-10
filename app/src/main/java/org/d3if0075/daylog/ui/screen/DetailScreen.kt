@@ -51,6 +51,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.database.DaylogDb
+import org.d3if0075.daylog.model.DetailViewModel
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.util.CatatanModelFactory
 

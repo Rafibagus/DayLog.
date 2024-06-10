@@ -60,6 +60,7 @@ import androidx.navigation.compose.rememberNavController
 import org.d3if0075.daylog.R
 import org.d3if0075.daylog.database.DaylogDb
 import org.d3if0075.daylog.model.Catatan
+import org.d3if0075.daylog.model.MainViewModel
 import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.ui.theme.Grey1

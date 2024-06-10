@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,85 +43,94 @@ import org.d3if0075.daylog.ui.theme.Grey1
 fun ProfileScreen(navHostController: NavHostController) {
     Column(
         modifier = Modifier
-            .padding(16.dp)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(id = R.string.tentang_daylog),
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-            textAlign = TextAlign.Justify
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(id = R.string.deskripsi_daylog),
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Justify,
-            lineHeight = 16.sp
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(id = R.string.deskripsi_tim),
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Justify,
-            lineHeight = 16.sp
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            ProfileImage(imageResource = R.drawable.foto_rere)
-            ProfileImage(imageResource = R.drawable.foto_rafi)
-            ProfileImage(imageResource = R.drawable.foto_raen)
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(id = R.string.kebijakan_privasi),
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            textAlign = TextAlign.Justify
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = stringResource(id = R.string.deksripsi_kebijakan_privasi),
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Justify,
-            lineHeight = 16.sp
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(id = R.string.hubungi_kami),
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            textAlign = TextAlign.Justify
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = stringResource(id = R.string.deskripsi_hubungi_kami),
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Justify,
-            lineHeight = 16.sp
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(id = R.string.terima_kasih),
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Justify,
-            lineHeight = 16.sp
-        )
-    }
-    Box(){
-        Row(
-            modifier = Modifier
-                .size(500.dp, 65.dp)
-                .background(Grey1)
-                .align(Alignment.BottomCenter),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
+        Box(){
             Row(
-                horizontalArrangement = Arrangement.spacedBy(50.dp)
+                modifier = Modifier
+                    .size(500.dp, 65.dp)
+                    .background(Grey1)
+                    .align(Alignment.BottomCenter),
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                IconButton(onClick = {
+                    navHostController.navigate(Screen.About.route)
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.kembali)
+                    )
+                }
             }
+        }
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(id = R.string.tentang_daylog),
+                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                textAlign = TextAlign.Justify
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(id = R.string.deskripsi_daylog),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Justify,
+                lineHeight = 16.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(id = R.string.deskripsi_tim),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Justify,
+                lineHeight = 16.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                ProfileImage(imageResource = R.drawable.foto_rere)
+                ProfileImage(imageResource = R.drawable.foto_rafi)
+                ProfileImage(imageResource = R.drawable.foto_raen)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(id = R.string.kebijakan_privasi),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                textAlign = TextAlign.Justify
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(id = R.string.deksripsi_kebijakan_privasi),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Justify,
+                lineHeight = 16.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(id = R.string.hubungi_kami),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                textAlign = TextAlign.Justify
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(id = R.string.deskripsi_hubungi_kami),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Justify,
+                lineHeight = 16.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(id = R.string.terima_kasih),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Justify,
+                lineHeight = 16.sp
+            )
         }
     }
 }

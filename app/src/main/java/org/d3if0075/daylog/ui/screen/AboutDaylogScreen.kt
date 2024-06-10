@@ -31,6 +31,10 @@ import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.ui.theme.Grey1
 import android.app.Activity
+import androidx.lifecycle.viewmodel.compose.viewModel
+import org.d3if0075.daylog.database.DaylogDb
+import org.d3if0075.daylog.model.MainViewModel
+import org.d3if0075.daylog.util.CatatanModelFactory
 
 @Composable
 fun AboutDaylogScreen(navHostController: NavHostController) {
@@ -40,6 +44,26 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
 
     // Mendapatkan Activity dari LocalContext
     val activity = (LocalContext.current as? Activity)
+
+    val context = LocalContext.current
+    val db = DaylogDb.getInstance(context)
+    val factory = CatatanModelFactory(db.catatanDao)
+    val viewModel: MainViewModel = viewModel(factory = factory)
+    val data by viewModel.data.collectAsState()
+
+    var sad by remember { mutableStateOf(0) }
+    var disappointed by remember { mutableStateOf(0) }
+    var calm by remember { mutableStateOf(0) }
+    var happy by remember { mutableStateOf(0) }
+    var excited by remember { mutableStateOf(0) }
+
+    LaunchedEffect(data) {
+        sad = data.count { it.mood == 3 }
+        disappointed = data.count { it.mood == 4 }
+        calm = data.count { it.mood == 2 }
+        happy = data.count { it.mood == 1 }
+        excited = data.count { it.mood == 0 }
+    }
 
     Box(
         modifier = Modifier
@@ -192,7 +216,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                 Box(
                     modifier = Modifier
                         .clickable {
-                            navHostController.navigate(Screen.Chart.route)
+                            navHostController.navigate(Screen.Chart.route + "/${sad}/${disappointed}/${calm}/${happy}/${excited}")
                             // Handle graph image click
                         }
                 ) {

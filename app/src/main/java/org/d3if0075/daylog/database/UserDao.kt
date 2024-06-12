@@ -27,6 +27,8 @@ interface UserDao {
     @Query("UPDATE user SET password = :newPassword WHERE email = :email")
     suspend fun updatePasswordByEmail(email: String, newPassword:String)
 
+    @Query("SELECT * FROM user WHERE signedIn = 1 LIMIT 1")
+    fun getSignedInUser():Flow<User?>
 
 }
 

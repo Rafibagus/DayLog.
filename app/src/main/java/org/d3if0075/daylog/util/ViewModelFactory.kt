@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import org.d3if0075.daylog.database.UserDao
 import org.d3if0075.daylog.model.LoginViewModel
 import org.d3if0075.daylog.model.RegisterViewModel
+import org.d3if0075.daylog.model.UserViewModel
 
 class ViewModelFactory(private val userDao: UserDao): ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
@@ -13,6 +14,8 @@ class ViewModelFactory(private val userDao: UserDao): ViewModelProvider.Factory 
             return LoginViewModel(userDao) as T
         } else if (modelClass.isAssignableFrom(RegisterViewModel::class.java)){
             return RegisterViewModel(userDao) as T
+        } else if (modelClass.isAssignableFrom(UserViewModel::class.java)){
+            return UserViewModel(userDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

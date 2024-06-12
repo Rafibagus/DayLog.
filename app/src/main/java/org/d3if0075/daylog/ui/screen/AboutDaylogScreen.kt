@@ -31,16 +31,35 @@ import org.d3if0075.daylog.navigation.Screen
 import org.d3if0075.daylog.ui.theme.DayLogTheme
 import org.d3if0075.daylog.ui.theme.Grey1
 import android.app.Activity
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.d3if0075.daylog.database.DaylogDb
 import org.d3if0075.daylog.model.MainViewModel
+import org.d3if0075.daylog.model.UserViewModel
 import org.d3if0075.daylog.util.CatatanModelFactory
+import org.d3if0075.daylog.util.ViewModelFactory
 
 @Composable
 fun AboutDaylogScreen(navHostController: NavHostController) {
-    var username by remember { mutableStateOf("Agus") }
+    val context1 = LocalContext.current
+    val db1 = DaylogDb.getInstance(context1)
+    val factory1 = ViewModelFactory(db1.dao)
+    val viewModel1: UserViewModel = viewModel(factory = factory1)
+    val data1 by viewModel1.data.collectAsState()
+
+    var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("agusf4@gmail.com") }
     var password by remember { mutableStateOf("password") }
+    var isEditMode by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(data1) {
+        if (data1.isNotEmpty()) {
+            val user = data1[1] // Get the first user from the list
+            username = user.userName
+            email = user.email
+            password = user.password
+            }
+        }
 
     // Mendapatkan Activity dari LocalContext
     val activity = (LocalContext.current as? Activity)
@@ -120,6 +139,7 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                     onValueChange = { username = it },
                     label = { Text("Nama pengguna") },
                     singleLine = true,
+                    enabled = isEditMode,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -146,7 +166,12 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
-                    onClick = { },
+                    onClick = {
+                        if (isEditMode){
+
+                        }
+                        isEditMode = !isEditMode
+                    },
                     shape = RoundedCornerShape(4.dp),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -154,13 +179,13 @@ fun AboutDaylogScreen(navHostController: NavHostController) {
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEEE3CB))
                 ) {
                     Text(
-                        "Ubah",
+                        if (isEditMode) "Simpan" else "Ubah",
                         color = Color.Black
                     )
                 }
 
                 Button(
-                    onClick = { activity?.finishAffinity() }, // Menutup aplikasi saat tombol "Keluar" ditekan
+                    onClick = { navHostController.navigate(Screen.Login.route)}, // Menutup aplikasi saat tombol "Keluar" ditekan
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEEE3CB)),
                     shape = RoundedCornerShape(4.dp),
                     modifier = Modifier

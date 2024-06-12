@@ -155,7 +155,7 @@ fun LoginScreen(navController: NavHostController) {
                             } else {
                                 Toast.makeText(
                                     context,
-                                    "Invalid login credentials",
+                                    "Gagal masuk",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
